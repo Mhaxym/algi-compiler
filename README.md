@@ -14,7 +14,7 @@ The language is a simple imperative language with a Pascal-like syntax.
 ### There are some examples in the `src/execucio` folder.
 
 `Bubble Sort` example:
-```ALGI
+```
 procedure main is
   type index is new integer range 0..9;
   type ar is array (index) of integer;
@@ -63,8 +63,8 @@ procedure main is
       j := j + 1;
     end loop;
   end main;
-  ```
+ ```
 
-  ### Notes
+### Notes
   - Almost everything is commented/coded in Catalan.
   - This was implemented using Ada 2012 and GNAT 2015.
