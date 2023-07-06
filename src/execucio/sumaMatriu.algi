@@ -1,0 +1,58 @@
+procedure sumaMatriu is
+type index is new integer range 1..2;
+type matriu is array(index, index) of integer;
+
+procedure imprimirMatriu(a: in matriu) is
+i, j : index;
+n : integer;
+begin
+ i:= 1;
+ puts("Valor resultat matriu: "); new_line;
+ while i <= 2 loop
+   j := 1;
+   while j <= 2 loop
+     n := a(i,j);
+     puti(n);
+     putc(' ');
+     j := j + 1;
+   end loop;
+   new_line;
+   i := i + 1;
+ end loop;
+ end imprimirMatriu;
+ 
+ procedure sumaMat (a: in out matriu; b : in matriu) is
+   i, j : index;
+ begin
+   i := 1;
+   while i <= 2 loop
+     j := 1;
+     while j <= 2 loop
+       a(i,j) := a(i,j) + b(i,j);
+       j := j + 1;
+     end loop;
+     i := i + 1;
+   end loop;
+ end sumaMat;
+
+a, b : matriu;
+i, j: index;
+n : integer;
+begin
+ i:= 1;
+ while i <= 2 loop
+   j := 1;
+   while j <= 2 loop
+     puts("Valor primera matriu: ");
+     geti(n);
+     a(i,j) := n;
+     puts("Valor de la segona matriu: ");
+     geti(n);
+     b(i,j) := n;
+     j := j + 1;
+   end loop;
+   i := i + 1;
+ end loop;
+ sumaMat(a, b);
+ imprimirMatriu(a);
+end sumaMatriu;

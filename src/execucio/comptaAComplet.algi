@@ -1,0 +1,43 @@
+procedure principal is
+  type idxp is new integer range 0..24;
+  type vc   is array (idxp) of character;
+  type paraula is record
+    p: vc;
+    nLletres: idxp;
+  end record;
+
+  c: character;
+
+  procedure llegeixParaula(p: out paraula) is
+  begin
+    p.nLletres := 0;
+	  getc(c);
+    while c /= ' ' and c /= ';' loop
+  	  p.p(p.nLletres) := c;
+  	  p.nLletres := p.nLletres + 1;
+  	  getc(c);
+	  end loop;
+  end llegeixParaula;
+
+  p: paraula;
+  na: integer;
+  i: idxp;
+begin
+  na := 0;
+  c := ' ';
+  puts("Introduiu una frase acabada en ';': ");
+  while c /= ';' loop
+    llegeixParaula(p);
+	  i := 0;
+	  while i < p.nLletres loop
+    if p.p(i) = 'a' then
+      na := na + 1;
+    end if;
+	  i := i + 1;
+	  end loop;
+  end loop;
+  puts("El nombre de As a la frase es: ");
+  puti(na);
+  new_line;
+  puts("Final del programa."); new_line;
+end principal;

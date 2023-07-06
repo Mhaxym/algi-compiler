@@ -1,0 +1,48 @@
+ 1   procedure main is
+ 2     type index is new integer range 0..9;
+ 3     type ar is array (index) of integer;
+ 4   
+ 5     procedure bubble_sort (a : in out ar) is
+ 6       hhc : boolean;
+ 7       i : integer;
+ 8       j : index;
+ 9     begin
+ 10      j := 0;
+ 11      hhc := true;
+ 12      while hhc loop
+ 13        hhc := false;
+ 14        while j < 10 loop
+ 15          if a(j+1) < a(j) then
+ 16            hhc := true;
+ 17            i := a(j+1);
+ 18            a(j+1) := a(j);
+ 19            a(j) := i;
+ 20          end if;
+ 21          j := j + 1;
+ 22        end loop;
+ 23        j:=0;
+ 24      end loop;
+ 25    end bubble_sort;
+ 26      b : ar;
+ 27      j : index;
+ 28      k : integer;
+ 29    begin
+ 30      j := 0;
+ 31      puts("Introduiu els valors que voleu ordenar: ");
+ 32      new_line;
+ 33      while j < 10 loop
+ 34        new_line;
+ 35        puts(" Valor : ");
+ 36        geti(k);
+ 37        b(j) := k;
+ 38        j := j + 1;
+ 39      end loop;
+ 40      bubble_sort(b);
+ 41      j := 0;
+ 42      puts("Els valors ordenats son: "); new_line;
+ 43      while j < 10 loop
+ 44        puts("  ");
+ 45        puti(b(j));
+ 46        j := j + 1;
+ 47      end loop;
+

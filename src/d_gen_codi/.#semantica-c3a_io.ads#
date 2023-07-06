@@ -1,0 +1,4 @@
+with decls.codi_3_a;
+use decls.codi_3_a;
+
+package c3a_io is new Sequential_IO(instr_3a);

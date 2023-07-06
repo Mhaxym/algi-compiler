@@ -1,0 +1,637 @@
+with decls.declaracions_generals; use decls.declaracions_generals;
+with semantica.c_arbre; use semantica.c_arbre;
+package body a_lexic is
+
+ function pos return posicio is
+ p : posicio;
+ begin
+   p.lin := YY_LINE_NUMBER;
+	 p.col := YY_BEGIN_COLUMN;
+	 return p;
+ end pos;
+
+function YYLex return Token is
+subtype short is integer range -32768..32767;
+    yy_act : integer;
+    yy_c : short;
+
+-- returned upon end-of-file
+YY_END_TOK : constant integer := 0;
+YY_END_OF_BUFFER : constant := 52;
+subtype yy_state_type is integer;
+yy_current_state : yy_state_type;
+INITIAL : constant := 0;
+yy_accept : constant array(0..132) of short :=
+    (   0,
+        0,    0,   52,   50,   49,   49,   50,   50,    3,    4,
+        7,    5,   14,    6,   15,    8,   46,    1,    2,   10,
+        9,   11,   44,   44,   44,   44,   44,   44,   44,   44,
+       44,   44,   44,   44,   44,   44,   44,   49,    0,   45,
+        0,   48,   18,   17,   46,   16,   12,   13,   44,    0,
+       44,   44,   44,   44,   44,   44,   44,   21,   42,   41,
+       44,   44,   44,   44,   44,   40,   38,   44,   44,   44,
+       44,   44,   44,   44,   47,   48,   37,   44,   44,   44,
+       44,   20,   44,   44,   43,   27,   39,   44,   29,   44,
+       44,   44,   44,   44,   44,   44,   44,   44,   44,   22,
+
+       44,   25,   28,   44,   44,   44,   44,   23,   35,   44,
+       36,   19,   44,   44,   44,   33,   44,   44,   24,   44,
+       44,   44,   32,   34,   44,   44,   44,   26,   31,   44,
+       30,    0
+    ) ;
+
+yy_ec : constant array(ASCII.NUL..ASCII.DEL) of short :=
+    (   0,
+        1,    1,    1,    1,    1,    1,    1,    2,    2,    3,
+        1,    1,    2,    1,    1,    1,    1,    1,    1,    1,
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,    4,    5,    6,    5,    5,    5,    5,    7,    8,
+        9,   10,   11,   12,   13,   14,   15,   16,   16,   16,
+       16,   16,   16,   16,   16,   16,   16,   17,   18,   19,
+       20,   21,    5,    5,   22,   22,   22,   22,   22,   22,
+       22,   22,   22,   22,   22,   22,   22,   22,   22,   22,
+       22,   22,   22,   22,   22,   22,   22,   22,   22,   22,
+        5,    5,    5,    5,   23,    5,   24,   25,   26,   27,
+
+       28,   29,   30,   31,   32,   22,   22,   33,   34,   35,
+       36,   37,   22,   38,   39,   40,   41,   22,   42,   22,
+       43,   22,    5,    5,    5,    5,    1
+    ) ;
+
+yy_meta : constant array(0..43) of short :=
+    (   0,
+        1,    1,    2,    3,    3,    3,    3,    3,    3,    3,
+        3,    3,    3,    3,    3,    4,    3,    3,    3,    3,
+        3,    4,    4,    4,    4,    4,    4,    4,    4,    4,
+        4,    4,    4,    4,    4,    4,    4,    4,    4,    4,
+        4,    4,    4
+    ) ;
+
+yy_base : constant array(0..136) of short :=
+    (   0,
+        0,    0,  247,  248,   42,   45,  240,    0,  248,  248,
+      248,  248,  248,  232,  230,  223,  226,  221,  248,  220,
+      248,  219,  215,   27,   28,   30,   34,   29,   45,   35,
+       36,   50,   52,   38,   59,   54,   32,   92,  231,  248,
+      229,    0,  248,  248,  219,  248,  248,  248,  211,  210,
+       37,   65,   69,   66,   75,   77,   82,  209,  208,  207,
+       79,   83,   84,   85,   86,  206,  205,   88,   93,   89,
+       95,   99,   97,  100,  248,    0,  204,  107,  110,  113,
+      115,  203,  114,  116,  202,  201,  200,  118,  199,  121,
+      125,  122,  123,  126,  131,  127,  133,  134,  139,  198,
+
+      140,  197,  196,  142,  143,  144,  145,  193,  185,  149,
+      183,  181,  150,  152,  158,  180,  163,  164,  179,  165,
+      155,  166,  175,  174,  169,  170,  172,  171,   90,  173,
+       56,  248,  208,  210,   50,  214
+    ) ;
+
+yy_def : constant array(0..136) of short :=
+    (   0,
+      132,    1,  132,  132,  132,  132,  133,  134,  132,  132,
+      132,  132,  132,  132,  132,  132,  132,  132,  132,  132,
+      132,  132,  135,  135,  135,  135,  135,  135,  135,  135,
+      135,  135,  135,  135,  135,  135,  135,  132,  133,  132,
+      132,  136,  132,  132,  132,  132,  132,  132,  135,  135,
+      135,  135,  135,  135,  135,  135,  135,  135,  135,  135,
+      135,  135,  135,  135,  135,  135,  135,  135,  135,  135,
+      135,  135,  135,  135,  132,  136,  135,  135,  135,  135,
+      135,  135,  135,  135,  135,  135,  135,  135,  135,  135,
+      135,  135,  135,  135,  135,  135,  135,  135,  135,  135,
+
+      135,  135,  135,  135,  135,  135,  135,  135,  135,  135,
+      135,  135,  135,  135,  135,  135,  135,  135,  135,  135,
+      135,  135,  135,  135,  135,  135,  135,  135,  135,  135,
+      135,    0,  132,  132,  132,  132
+    ) ;
+
+yy_nxt : constant array(0..291) of short :=
+    (   0,
+        4,    5,    6,    5,    4,    7,    8,    9,   10,   11,
+       12,   13,   14,   15,   16,   17,   18,   19,   20,   21,
+       22,   23,    4,   24,   25,   26,   23,   27,   28,   23,
+       23,   29,   30,   31,   32,   33,   34,   35,   23,   36,
+       23,   37,   23,   38,   38,   38,   38,   38,   38,   50,
+       50,   50,   50,   49,   50,   53,   50,   50,   50,   50,
+       50,   51,   74,   77,   52,   54,   55,   50,   56,   57,
+       61,   62,   50,   58,   50,   69,   50,   63,   50,   59,
+       66,   50,   70,   60,   72,   64,   71,   50,   50,   67,
+       65,   50,   68,   38,   38,   38,   73,   50,   79,   50,
+
+       80,   50,   78,   82,   50,   50,   50,   50,   50,   85,
+       50,   50,   50,   81,   84,   50,   83,   50,   88,   50,
+       92,   50,   50,   91,   87,   86,   94,   89,   90,   50,
+       97,   96,   50,   95,   93,   50,   50,   50,   50,  101,
+       50,   98,  100,   50,   50,   50,  104,   50,   50,   50,
+      103,   99,  102,   50,  105,   50,   50,  106,  109,  110,
+      108,   50,   50,  107,   50,   50,   50,   50,  112,  115,
+      116,   50,   50,  120,   50,  111,  119,   50,  113,  114,
+       50,  117,  118,  121,  122,   50,   50,   50,   50,  123,
+      126,   50,   50,   50,   50,   50,   50,   50,  124,  125,
+
+      131,   50,   50,   50,  129,   50,  127,   50,  128,  130,
+       39,   39,   41,   41,   76,   50,   76,   76,   50,   50,
+       50,   50,   50,   50,   50,   50,   50,   50,   50,   50,
+       50,   50,  132,   50,   45,   75,   40,   50,   48,   47,
+       46,   45,   44,   43,   42,   40,  132,    3,  132,  132,
+      132,  132,  132,  132,  132,  132,  132,  132,  132,  132,
+      132,  132,  132,  132,  132,  132,  132,  132,  132,  132,
+      132,  132,  132,  132,  132,  132,  132,  132,  132,  132,
+      132,  132,  132,  132,  132,  132,  132,  132,  132,  132,
+      132
+
+    ) ;
+
+yy_chk : constant array(0..291) of short :=
+    (   0,
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,    1,    1,    5,    5,    5,    6,    6,    6,   24,
+       25,   28,   26,  135,   37,   25,   27,   30,   31,   51,
+       34,   24,   37,   51,   24,   26,   27,   29,   27,   28,
+       30,   31,   32,   29,   33,   34,   36,   32,  131,   29,
+       33,   35,   35,   29,   36,   32,   35,   52,   54,   33,
+       32,   53,   33,   38,   38,   38,   36,   55,   53,   56,
+
+       54,   61,   52,   56,   57,   62,   63,   64,   65,   62,
+       68,   70,  129,   55,   61,   69,   57,   71,   65,   73,
+       71,   72,   74,   70,   64,   63,   72,   68,   69,   78,
+       78,   74,   79,   73,   71,   80,   83,   81,   84,   83,
+       88,   79,   81,   90,   92,   93,   90,   91,   94,   96,
+       88,   80,   84,   95,   91,   97,   98,   92,   95,   96,
+       94,   99,  101,   93,  104,  105,  106,  107,   98,  104,
+      105,  110,  113,  113,  114,   97,  110,  121,   99,  101,
+      115,  106,  107,  114,  115,  117,  118,  120,  122,  117,
+      121,  125,  126,  128,  127,  130,  124,  123,  118,  120,
+
+      130,  119,  116,  112,  126,  111,  122,  109,  125,  127,
+      133,  133,  134,  134,  136,  108,  136,  136,  103,  102,
+      100,   89,   87,   86,   85,   82,   77,   67,   66,   60,
+       59,   58,   50,   49,   45,   41,   39,   23,   22,   20,
+       18,   17,   16,   15,   14,    7,    3,  132,  132,  132,
+      132,  132,  132,  132,  132,  132,  132,  132,  132,  132,
+      132,  132,  132,  132,  132,  132,  132,  132,  132,  132,
+      132,  132,  132,  132,  132,  132,  132,  132,  132,  132,
+      132,  132,  132,  132,  132,  132,  132,  132,  132,  132,
+      132
+
+    ) ;
+
+
+-- copy whatever the last rule matched to the standard output
+
+procedure ECHO is
+begin
+   if (text_io.is_open(user_output_file)) then
+     text_io.put( user_output_file, yytext );
+   else
+     text_io.put( yytext );
+   end if;
+end ECHO;
+
+-- enter a start condition.
+-- Using procedure requires a () after the ENTER, but makes everything
+-- much neater.
+
+procedure ENTER( state : integer ) is
+begin
+     yy_start := 1 + 2 * state;
+end ENTER;
+
+-- action number for EOF rule of a given start state
+function YY_STATE_EOF(state : integer) return integer is
+begin
+     return YY_END_OF_BUFFER + state + 1;
+end YY_STATE_EOF;
+
+-- return all but the first 'n' matched characters back to the input stream
+procedure yyless(n : integer) is
+begin
+        yy_ch_buf(yy_cp) := yy_hold_char; -- undo effects of setting up yytext
+        yy_cp := yy_bp + n;
+        yy_c_buf_p := yy_cp;
+        YY_DO_BEFORE_ACTION; -- set up yytext again
+end yyless;
+
+-- redefine this if you have something you want each time.
+procedure YY_USER_ACTION is
+begin
+        null;
+end;
+
+-- yy_get_previous_state - get the state just before the EOB char was reached
+
+function yy_get_previous_state return yy_state_type is
+    yy_current_state : yy_state_type;
+    yy_c : short;
+begin
+    yy_current_state := yy_start;
+
+    for yy_cp in yytext_ptr..yy_c_buf_p - 1 loop
+	yy_c := yy_ec(yy_ch_buf(yy_cp));
+	if ( yy_accept(yy_current_state) /= 0 ) then
+	    yy_last_accepting_state := yy_current_state;
+	    yy_last_accepting_cpos := yy_cp;
+	end if;
+	while ( yy_chk(yy_base(yy_current_state) + yy_c) /= yy_current_state ) loop
+	    yy_current_state := yy_def(yy_current_state);
+	    if ( yy_current_state >= 133 ) then
+		yy_c := yy_meta(yy_c);
+	    end if;
+	end loop;
+	yy_current_state := yy_nxt(yy_base(yy_current_state) + yy_c);
+    end loop;
+
+    return yy_current_state;
+end yy_get_previous_state;
+
+procedure yyrestart( input_file : file_type ) is
+begin
+   open_input(text_io.name(input_file));
+end yyrestart;
+
+begin -- of YYLex
+<<new_file>>
+        -- this is where we enter upon encountering an end-of-file and
+        -- yywrap() indicating that we should continue processing
+
+    if ( yy_init ) then
+        if ( yy_start = 0 ) then
+            yy_start := 1;      -- first start state
+        end if;
+
+        -- we put in the '\n' and start reading from [1] so that an
+        -- initial match-at-newline will be true.
+
+        yy_ch_buf(0) := ASCII.LF;
+        yy_n_chars := 1;
+
+        -- we always need two end-of-buffer characters. The first causes
+        -- a transition to the end-of-buffer state. The second causes
+        -- a jam in that state.
+
+        yy_ch_buf(yy_n_chars) := YY_END_OF_BUFFER_CHAR;
+        yy_ch_buf(yy_n_chars + 1) := YY_END_OF_BUFFER_CHAR;
+
+        yy_eof_has_been_seen := false;
+
+        yytext_ptr := 1;
+        yy_c_buf_p := yytext_ptr;
+        yy_hold_char := yy_ch_buf(yy_c_buf_p);
+        yy_init := false;
+-- UMASS CODES :
+--   Initialization
+        tok_begin_line := 1;
+        tok_end_line := 1;
+        tok_begin_col := 0;
+        tok_end_col := 0;
+        token_at_end_of_line := false;
+        line_number_of_saved_tok_line1 := 0;
+        line_number_of_saved_tok_line2 := 0;
+-- END OF UMASS CODES.
+    end if; -- yy_init
+
+    loop                -- loops until end-of-file is reached
+
+-- UMASS CODES :
+--    if last matched token is end_of_line, we must
+--    update the token_end_line and reset tok_end_col.
+    if Token_At_End_Of_Line then
+      Tok_End_Line := Tok_End_Line + 1;
+      Tok_End_Col := 0;
+      Token_At_End_Of_Line := False;
+    end if;
+-- END OF UMASS CODES.
+
+        yy_cp := yy_c_buf_p;
+
+        -- support of yytext
+        yy_ch_buf(yy_cp) := yy_hold_char;
+
+        -- yy_bp points to the position in yy_ch_buf of the start of the
+        -- current run.
+	yy_bp := yy_cp;
+	yy_current_state := yy_start;
+	loop
+		yy_c := yy_ec(yy_ch_buf(yy_cp));
+		if ( yy_accept(yy_current_state) /= 0 ) then
+		    yy_last_accepting_state := yy_current_state;
+		    yy_last_accepting_cpos := yy_cp;
+		end if;
+		while ( yy_chk(yy_base(yy_current_state) + yy_c) /= yy_current_state ) loop
+		    yy_current_state := yy_def(yy_current_state);
+		    if ( yy_current_state >= 133 ) then
+			yy_c := yy_meta(yy_c);
+		    end if;
+		end loop;
+		yy_current_state := yy_nxt(yy_base(yy_current_state) + yy_c);
+	    yy_cp := yy_cp + 1;
+if ( yy_current_state = 132 ) then
+    exit;
+end if;
+	end loop;
+	yy_cp := yy_last_accepting_cpos;
+	yy_current_state := yy_last_accepting_state;
+
+<<next_action>>
+	    yy_act := yy_accept(yy_current_state);
+            YY_DO_BEFORE_ACTION;
+            YY_USER_ACTION;
+
+        if aflex_debug then  -- output acceptance info. for (-d) debug mode
+            text_io.put( Standard_Error, "--accepting rule #" );
+            text_io.put( Standard_Error, INTEGER'IMAGE(yy_act) );
+            text_io.put_line( Standard_Error, "(""" & yytext & """)");
+        end if;
+
+-- UMASS CODES :
+--   Update tok_begin_line, tok_end_line, tok_begin_col and tok_end_col
+--   after matching the token.
+        if yy_act /= YY_END_OF_BUFFER and then yy_act /= 0 then
+-- Token are matched only when yy_act is not yy_end_of_buffer or 0.
+          Tok_Begin_Line := Tok_End_Line;
+          Tok_Begin_Col := Tok_End_Col + 1;
+          Tok_End_Col := Tok_Begin_Col + yy_cp - yy_bp - 1;
+          if yy_ch_buf ( yy_bp ) = ASCII.LF then
+            Token_At_End_Of_Line := True;
+          end if;
+        end if;
+-- END OF UMASS CODES.
+
+<<do_action>>   -- this label is used only to access EOF actions
+            case yy_act is
+		when 0 => -- must backtrack
+		-- undo the effects of YY_DO_BEFORE_ACTION
+		yy_ch_buf(yy_cp) := yy_hold_char;
+		yy_cp := yy_last_accepting_cpos;
+		yy_current_state := yy_last_accepting_state;
+		goto next_action;
+
+
+
+-- Tots els simbols dels que disposara el compilador
+when 1 => 
+--# line 18 "lexic.l"
+rl_simb (yylval, pos); return s_dospunts;
+
+when 2 => 
+--# line 19 "lexic.l"
+rl_simb (yylval, pos); return s_punticoma;
+
+when 3 => 
+--# line 20 "lexic.l"
+rl_simb (yylval, pos); return s_parentesiobert;
+
+when 4 => 
+--# line 21 "lexic.l"
+rl_simb (yylval, pos); return s_parentesitancat;
+
+when 5 => 
+--# line 22 "lexic.l"
+rl_simb (yylval, pos); return s_mes;
+
+when 6 => 
+--# line 23 "lexic.l"
+rl_simb (yylval, pos); return s_menys;
+
+when 7 => 
+--# line 24 "lexic.l"
+rl_simb (yylval, pos); return s_multiplicacio;
+
+when 8 => 
+--# line 25 "lexic.l"
+rl_simb (yylval, pos); return s_divisio;
+
+when 9 => 
+--# line 26 "lexic.l"
+rl_op_rel (yylval, yytext, pos); return s_relacional;
+
+when 10 => 
+--# line 27 "lexic.l"
+rl_op_rel (yylval, yytext, pos); return s_relacional;
+
+when 11 => 
+--# line 28 "lexic.l"
+rl_op_rel (yylval, yytext, pos); return s_relacional;
+
+when 12 => 
+--# line 29 "lexic.l"
+rl_op_rel (yylval, yytext, pos); return s_relacional;
+
+when 13 => 
+--# line 30 "lexic.l"
+rl_op_rel (yylval, yytext, pos); return s_relacional;
+
+when 14 => 
+--# line 31 "lexic.l"
+rl_simb (yylval, pos); return s_coma;
+
+when 15 => 
+--# line 32 "lexic.l"
+rl_simb (yylval, pos); return s_punt;
+
+when 16 => 
+--# line 33 "lexic.l"
+rl_simb (yylval, pos); return s_assignacio;
+
+when 17 => 
+--# line 34 "lexic.l"
+rl_simb (yylval, pos); return s_diferent;
+
+when 18 => 
+--# line 35 "lexic.l"
+rl_simb (yylval, pos); return s_puntpunt;
+
+-- Paraules clau que utilitzara el compilador
+when 19 => 
+--# line 38 "lexic.l"
+rl_simb (yylval, pos); return pc_begin;
+
+when 20 => 
+--# line 39 "lexic.l"
+rl_simb (yylval, pos); return pc_end;
+
+when 21 => 
+--# line 40 "lexic.l"
+rl_simb (yylval, pos); return pc_if;
+
+when 22 => 
+--# line 41 "lexic.l"
+rl_simb (yylval, pos); return pc_else;
+
+when 23 => 
+--# line 42 "lexic.l"
+rl_simb (yylval, pos); return pc_then;
+
+when 24 => 
+--# line 43 "lexic.l"
+rl_simb (yylval, pos); return pc_while;
+
+when 25 => 
+--# line 44 "lexic.l"
+rl_simb (yylval, pos); return pc_loop;
+
+when 26 => 
+--# line 45 "lexic.l"
+rl_simb (yylval, pos); return pc_constant;
+
+when 27 => 
+--# line 46 "lexic.l"
+rl_simb (yylval, pos); return pc_new;
+
+when 28 => 
+--# line 47 "lexic.l"
+rl_simb (yylval, pos); return pc_null;
+
+when 29 => 
+--# line 48 "lexic.l"
+rl_simb (yylval, pos); return pc_out;
+
+when 30 => 
+--# line 49 "lexic.l"
+rl_simb (yylval, pos); return pc_procedure;
+
+when 31 => 
+--# line 50 "lexic.l"
+rl_simb (yylval, pos); return pc_function;
+
+when 32 => 
+--# line 51 "lexic.l"
+rl_simb (yylval, pos); return pc_record;
+
+when 33 => 
+--# line 52 "lexic.l"
+rl_simb (yylval, pos); return pc_range;
+
+when 34 => 
+--# line 53 "lexic.l"
+rl_simb (yylval, pos); return pc_return;
+
+when 35 => 
+--# line 54 "lexic.l"
+rl_simb (yylval, pos); return pc_type;
+
+when 36 => 
+--# line 55 "lexic.l"
+rl_simb (yylval, pos); return pc_array;
+
+when 37 => 
+--# line 56 "lexic.l"
+rl_simb (yylval, pos); return pc_and;
+
+when 38 => 
+--# line 57 "lexic.l"
+rl_simb (yylval, pos); return pc_or;
+
+when 39 => 
+--# line 58 "lexic.l"
+rl_simb (yylval, pos); return pc_not;
+
+when 40 => 
+--# line 59 "lexic.l"
+rl_simb (yylval, pos); return pc_of;
+
+when 41 => 
+--# line 60 "lexic.l"
+rl_simb (yylval, pos); return pc_is;
+
+when 42 => 
+--# line 61 "lexic.l"
+rl_simb (yylval, pos); return pc_in;
+
+when 43 => 
+--# line 62 "lexic.l"
+rl_simb (yylval, pos); return pc_mod;
+
+-- Estructura dels identificadors, els strings i els literals enter i caracter
+when 44 => 
+--# line 66 "lexic.l"
+rl_identificador
+                                                (yylval, yytext, pos);
+																						   	return id; 
+
+when 45 => 
+--# line 69 "lexic.l"
+rl_lit_str(yylval, yytext, pos);
+																						    return literal; 
+
+when 46 => 
+--# line 71 "lexic.l"
+rl_lit_ent(yylval, yytext, pos);
+                                                return literal; 
+
+when 47 => 
+--# line 73 "lexic.l"
+rl_lit_car(yylval, yytext, pos);
+                                                return literal; 
+
+when 48 => 
+--# line 75 "lexic.l"
+null;
+
+when 49 => 
+--# line 76 "lexic.l"
+null;
+
+when 50 => 
+--# line 77 "lexic.l"
+return Error;
+
+when 51 => 
+--# line 79 "lexic.l"
+ECHO;
+when YY_END_OF_BUFFER + INITIAL + 1 => 
+    return End_Of_Input;
+                when YY_END_OF_BUFFER =>
+                    -- undo the effects of YY_DO_BEFORE_ACTION
+                    yy_ch_buf(yy_cp) := yy_hold_char;
+
+                    yytext_ptr := yy_bp;
+
+                    case yy_get_next_buffer is
+                        when EOB_ACT_END_OF_FILE =>
+                            begin
+                            if ( yywrap ) then
+                                -- note: because we've taken care in
+                                -- yy_get_next_buffer() to have set up yytext,
+                                -- we can now set up yy_c_buf_p so that if some
+                                -- total hoser (like aflex itself) wants
+                                -- to call the scanner after we return the
+                                -- End_Of_Input, it'll still work - another
+                                -- End_Of_Input will get returned.
+
+                                yy_c_buf_p := yytext_ptr;
+
+                                yy_act := YY_STATE_EOF((yy_start - 1) / 2);
+
+                                goto do_action;
+                            else
+                                --  start processing a new file
+                                yy_init := true;
+                                goto new_file;
+                            end if;
+                            end;
+                        when EOB_ACT_RESTART_SCAN =>
+                            yy_c_buf_p := yytext_ptr;
+                            yy_hold_char := yy_ch_buf(yy_c_buf_p);
+                        when EOB_ACT_LAST_MATCH =>
+                            yy_c_buf_p := yy_n_chars;
+                            yy_current_state := yy_get_previous_state;
+
+                            yy_cp := yy_c_buf_p;
+                            yy_bp := yytext_ptr;
+                            goto next_action;
+                        when others => null;
+                        end case; -- case yy_get_next_buffer()
+                when others =>
+                    text_io.put( "action # " );
+                    text_io.put( INTEGER'IMAGE(yy_act) );
+                    text_io.new_line;
+                    raise AFLEX_INTERNAL_ERROR;
+            end case; -- case (yy_act)
+        end loop; -- end of loop waiting for end of file
+end YYLex;
+--# line 79 "lexic.l"
+end a_lexic;

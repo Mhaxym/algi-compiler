@@ -1,0 +1,22 @@
+procedure main is
+ i,j : integer;
+ procedure factorial (x: in integer; r: out integer) is
+  aux: integer;
+ begin
+   if x <= 1 then
+     r := 1;
+   else
+     factorial(x-1,aux);
+     r := x*aux;
+     end if;
+ end factorial;
+begin
+ new_line;
+ puts("Introdueix un nombre:");
+ geti(j);
+ factorial(j,i);
+ new_line;
+ puts("Resultat :");
+ puti(j); puts("! = ");
+ puti(i);new_line;
+end main;

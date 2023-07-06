@@ -1,0 +1,15 @@
+procedure comptaA is
+ c : character;
+ i : integer;
+begin
+ i := 0;
+ getc(c);
+ putc(c);
+ while c /= ';' loop
+   if c = 'a' then i := i + 1; end if;
+   getc(c);
+ end loop;
+ puts("El nombre de A introduides es : ");
+ puti(i);
+ new_line;
+end comptaA;

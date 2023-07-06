@@ -1,0 +1,37 @@
+e2: skip
+     pmb 8
+     if t5<=1 goto e3
+     goto e4
+e3: skip
+     t6:=1
+     goto e7
+e4: skip
+     t9:=t5-1
+     params t7
+     params t9
+     call 8
+     t11:=t5*t7
+     t6:=t11
+e7: skip
+     rtn 8
+e1: skip
+     pmb 7
+     call 6
+     params t12
+     call 5
+     params t4
+     call 4
+     params t3
+     params t4
+     call 8
+     call 6
+     params t13
+     call 5
+     params t4
+     call 2
+     params t14
+     call 5
+     params t3
+     call 2
+     call 6
+     rtn 7

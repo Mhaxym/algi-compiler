@@ -1,0 +1,25 @@
+e1: skip
+     pmb 7
+     goto e2
+e2: skip
+     t6:=1
+     goto e4
+e3: skip
+     t6:=0
+e4: skip
+     t3:=t6
+     t4:=50
+     if t3=1 goto e7
+     goto e9
+e9: skip
+     if t4<10 goto e7
+     goto e8
+e7: skip
+     params t11
+     call 5
+     goto e10
+e8: skip
+     params t12
+     call 5
+e10: skip
+     rtn 7

@@ -1,0 +1,27 @@
+e1: skip
+     pmb 7
+     t4:=0
+     params t3
+     call 3
+     params t3
+     call 1
+e4: skip
+     if t3/=59 goto e5
+     goto e6
+e5: skip
+     if t3=97 goto e7
+     goto e8
+e7: skip
+     t10:=t4+1
+     t4:=t10
+e8: skip
+     params t3
+     call 3
+     goto e4
+e6: skip
+     params t11
+     call 5
+     params t4
+     call 2
+     call 6
+     rtn 7

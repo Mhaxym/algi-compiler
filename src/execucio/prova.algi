@@ -1,0 +1,11 @@
+procedure prova1 is
+k : boolean;i :integer;
+begin
+k := true;
+i := 50;
+if (k or i < 10) then
+ puts("entram en primer");
+ else
+ puts("entram en segon");
+ end if;
+end prova1;

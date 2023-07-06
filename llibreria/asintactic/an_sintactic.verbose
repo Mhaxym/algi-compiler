@@ -1,0 +1,2715 @@
+------------------
+State  0
+
+Kernel
+( 0)  $accept	: _ PROGRAMA END_OF_INPUT 
+
+Closure
+( 0)  $accept	: _ PROGRAMA END_OF_INPUT 
+( 1)  PROGRAMA	: _ DECLARA_PROC 
+( 2)  DECLARA_PROC	: _ PC_PROCEDURE ENCAP PC_IS DECLARACIONS PC_BEGIN SENTS PC_END ID S_PUNTICOMA 
+
+
+	DECLARA_PROC 	goto  1
+	PROGRAMA 	goto  3
+ 	PC_PROCEDURE 	shift  2
+ 	default 	error
+------------------
+State  1
+
+Kernel
+( 1)  PROGRAMA	: DECLARA_PROC _ 
+
+Closure
+( 1)  PROGRAMA	: DECLARA_PROC _ 
+
+
+ 	default 	reduce  1
+------------------
+State  2
+
+Kernel
+( 2)  DECLARA_PROC	: PC_PROCEDURE _ ENCAP PC_IS DECLARACIONS PC_BEGIN SENTS PC_END ID S_PUNTICOMA 
+
+Closure
+( 2)  DECLARA_PROC	: PC_PROCEDURE _ ENCAP PC_IS DECLARACIONS PC_BEGIN SENTS PC_END ID S_PUNTICOMA 
+( 3)  ENCAP	: _ ID PARAMETRES 
+( 4)  ENCAP	: _ ID 
+
+
+	ENCAP 	goto  5
+ 	ID 	shift  4
+ 	default 	error
+------------------
+State  3
+
+Kernel
+( 0)  $accept	: PROGRAMA _ END_OF_INPUT 
+
+Closure
+( 0)  $accept	: PROGRAMA _ END_OF_INPUT 
+
+
+ 	END_OF_INPUT 	accept
+ 	default 	error
+------------------
+State  4
+
+Kernel
+( 3)  ENCAP	: ID _ PARAMETRES 
+( 4)  ENCAP	: ID _ 
+
+Closure
+( 3)  ENCAP	: ID _ PARAMETRES 
+( 4)  ENCAP	: ID _ 
+( 5)  PARAMETRES	: _ S_PARENTESIOBERT ARGS S_PARENTESITANCAT 
+
+
+	PARAMETRES 	goto  8
+ 	S_PARENTESIOBERT 	shift  7
+ 	default 	reduce  4
+------------------
+State  5
+
+Kernel
+( 2)  DECLARA_PROC	: PC_PROCEDURE ENCAP _ PC_IS DECLARACIONS PC_BEGIN SENTS PC_END ID S_PUNTICOMA 
+
+Closure
+( 2)  DECLARA_PROC	: PC_PROCEDURE ENCAP _ PC_IS DECLARACIONS PC_BEGIN SENTS PC_END ID S_PUNTICOMA 
+
+
+ 	PC_IS 	shift  9
+ 	default 	error
+------------------
+State  6
+
+Kernel
+( 0)  $accept	: PROGRAMA END_OF_INPUT _ 
+
+Closure
+( 0)  $accept	: PROGRAMA END_OF_INPUT _ 
+
+
+ 	default 	error
+------------------
+State  7
+
+Kernel
+( 5)  PARAMETRES	: S_PARENTESIOBERT _ ARGS S_PARENTESITANCAT 
+
+Closure
+( 5)  PARAMETRES	: S_PARENTESIOBERT _ ARGS S_PARENTESITANCAT 
+( 6)  ARGS	: _ ARGS S_PUNTICOMA D_ARG 
+( 7)  ARGS	: _ D_ARG 
+( 8)  D_ARG	: _ ID S_DOSPUNTS MODE_PARAMETRE ID 
+
+
+	D_ARG 	goto  11
+	ARGS 	goto  10
+ 	ID 	shift  12
+ 	default 	error
+------------------
+State  8
+
+Kernel
+( 3)  ENCAP	: ID PARAMETRES _ 
+
+Closure
+( 3)  ENCAP	: ID PARAMETRES _ 
+
+
+ 	default 	reduce  3
+------------------
+State  9
+
+Kernel
+( 2)  DECLARA_PROC	: PC_PROCEDURE ENCAP PC_IS _ DECLARACIONS PC_BEGIN SENTS PC_END ID S_PUNTICOMA 
+
+Closure
+( 2)  DECLARA_PROC	: PC_PROCEDURE ENCAP PC_IS _ DECLARACIONS PC_BEGIN SENTS PC_END ID S_PUNTICOMA 
+( 12)  DECLARACIONS	: _ DECLARACIONS DECLARACIO 
+( 13)  DECLARACIONS	: _ 
+
+
+	DECLARACIONS 	goto  13
+ 	default 	reduce  13
+------------------
+State  10
+
+Kernel
+( 5)  PARAMETRES	: S_PARENTESIOBERT ARGS _ S_PARENTESITANCAT 
+( 6)  ARGS	: ARGS _ S_PUNTICOMA D_ARG 
+
+Closure
+( 5)  PARAMETRES	: S_PARENTESIOBERT ARGS _ S_PARENTESITANCAT 
+( 6)  ARGS	: ARGS _ S_PUNTICOMA D_ARG 
+
+
+ 	S_PUNTICOMA 	shift  15
+ 	S_PARENTESITANCAT 	shift  14
+ 	default 	error
+------------------
+State  11
+
+Kernel
+( 7)  ARGS	: D_ARG _ 
+
+Closure
+( 7)  ARGS	: D_ARG _ 
+
+
+ 	default 	reduce  7
+------------------
+State  12
+
+Kernel
+( 8)  D_ARG	: ID _ S_DOSPUNTS MODE_PARAMETRE ID 
+
+Closure
+( 8)  D_ARG	: ID _ S_DOSPUNTS MODE_PARAMETRE ID 
+
+
+ 	S_DOSPUNTS 	shift  16
+ 	default 	error
+------------------
+State  13
+
+Kernel
+( 2)  DECLARA_PROC	: PC_PROCEDURE ENCAP PC_IS DECLARACIONS _ PC_BEGIN SENTS PC_END ID S_PUNTICOMA 
+( 12)  DECLARACIONS	: DECLARACIONS _ DECLARACIO 
+
+Closure
+( 2)  DECLARA_PROC	: _ PC_PROCEDURE ENCAP PC_IS DECLARACIONS PC_BEGIN SENTS PC_END ID S_PUNTICOMA 
+( 2)  DECLARA_PROC	: PC_PROCEDURE ENCAP PC_IS DECLARACIONS _ PC_BEGIN SENTS PC_END ID S_PUNTICOMA 
+( 12)  DECLARACIONS	: DECLARACIONS _ DECLARACIO 
+( 14)  DECLARACIO	: _ DECLARA_VARIABLE 
+( 15)  DECLARACIO	: _ DECLARA_CONSTANT 
+( 16)  DECLARACIO	: _ DECLARA_TIPUS 
+( 17)  DECLARACIO	: _ DECLARA_PROC 
+( 18)  DECLARA_VARIABLE	: _ L_IDS S_DOSPUNTS ID S_PUNTICOMA 
+( 19)  L_IDS	: _ L_IDS S_COMA ID 
+( 20)  L_IDS	: _ ID 
+( 21)  DECLARA_CONSTANT	: _ L_IDS S_DOSPUNTS PC_CONSTANT ID S_ASSIGNACIO VALOR S_PUNTICOMA 
+( 26)  DECLARA_TIPUS	: _ DECLARA_SUBRANG 
+( 27)  DECLARA_TIPUS	: _ DECLARA_ARRAY 
+( 28)  DECLARA_TIPUS	: _ DECLARA_RECORD 
+( 29)  DECLARA_SUBRANG	: _ PC_TYPE ID PC_IS PC_NEW ID PC_RANGE VALOR S_PUNTPUNT VALOR S_PUNTICOMA 
+( 30)  DECLARA_ARRAY	: _ PC_TYPE ID PC_IS PC_ARRAY S_PARENTESIOBERT L_IDS S_PARENTESITANCAT PC_OF ID S_PUNTICOMA 
+( 31)  DECLARA_RECORD	: _ PC_TYPE ID PC_IS PC_RECORD DECLARACIO_CAMPS PC_END PC_RECORD S_PUNTICOMA 
+
+
+	DECLARA_RECORD 	goto  24
+	DECLARA_ARRAY 	goto  23
+	DECLARA_SUBRANG 	goto  22
+	L_IDS 	goto  21
+	DECLARA_TIPUS 	goto  19
+	DECLARA_CONSTANT 	goto  18
+	DECLARA_VARIABLE 	goto  17
+	DECLARACIO 	goto  28
+	DECLARA_PROC 	goto  20
+ 	PC_BEGIN 	shift  27
+ 	PC_PROCEDURE 	shift  2
+ 	PC_TYPE 	shift  26
+ 	ID 	shift  25
+ 	default 	error
+------------------
+State  14
+
+Kernel
+( 5)  PARAMETRES	: S_PARENTESIOBERT ARGS S_PARENTESITANCAT _ 
+
+Closure
+( 5)  PARAMETRES	: S_PARENTESIOBERT ARGS S_PARENTESITANCAT _ 
+
+
+ 	default 	reduce  5
+------------------
+State  15
+
+Kernel
+( 6)  ARGS	: ARGS S_PUNTICOMA _ D_ARG 
+
+Closure
+( 6)  ARGS	: ARGS S_PUNTICOMA _ D_ARG 
+( 8)  D_ARG	: _ ID S_DOSPUNTS MODE_PARAMETRE ID 
+
+
+	D_ARG 	goto  29
+ 	ID 	shift  12
+ 	default 	error
+------------------
+State  16
+
+Kernel
+( 8)  D_ARG	: ID S_DOSPUNTS _ MODE_PARAMETRE ID 
+
+Closure
+( 8)  D_ARG	: ID S_DOSPUNTS _ MODE_PARAMETRE ID 
+( 9)  MODE_PARAMETRE	: _ PC_IN 
+( 10)  MODE_PARAMETRE	: _ PC_OUT 
+( 11)  MODE_PARAMETRE	: _ PC_IN PC_OUT 
+
+
+	MODE_PARAMETRE 	goto  32
+ 	PC_OUT 	shift  31
+ 	PC_IN 	shift  30
+ 	default 	error
+------------------
+State  17
+
+Kernel
+( 14)  DECLARACIO	: DECLARA_VARIABLE _ 
+
+Closure
+( 14)  DECLARACIO	: DECLARA_VARIABLE _ 
+
+
+ 	default 	reduce  14
+------------------
+State  18
+
+Kernel
+( 15)  DECLARACIO	: DECLARA_CONSTANT _ 
+
+Closure
+( 15)  DECLARACIO	: DECLARA_CONSTANT _ 
+
+
+ 	default 	reduce  15
+------------------
+State  19
+
+Kernel
+( 16)  DECLARACIO	: DECLARA_TIPUS _ 
+
+Closure
+( 16)  DECLARACIO	: DECLARA_TIPUS _ 
+
+
+ 	default 	reduce  16
+------------------
+State  20
+
+Kernel
+( 17)  DECLARACIO	: DECLARA_PROC _ 
+
+Closure
+( 17)  DECLARACIO	: DECLARA_PROC _ 
+
+
+ 	default 	reduce  17
+------------------
+State  21
+
+Kernel
+( 18)  DECLARA_VARIABLE	: L_IDS _ S_DOSPUNTS ID S_PUNTICOMA 
+( 19)  L_IDS	: L_IDS _ S_COMA ID 
+( 21)  DECLARA_CONSTANT	: L_IDS _ S_DOSPUNTS PC_CONSTANT ID S_ASSIGNACIO VALOR S_PUNTICOMA 
+
+Closure
+( 18)  DECLARA_VARIABLE	: L_IDS _ S_DOSPUNTS ID S_PUNTICOMA 
+( 19)  L_IDS	: L_IDS _ S_COMA ID 
+( 21)  DECLARA_CONSTANT	: L_IDS _ S_DOSPUNTS PC_CONSTANT ID S_ASSIGNACIO VALOR S_PUNTICOMA 
+
+
+ 	S_DOSPUNTS 	shift  33
+ 	S_COMA 	shift  34
+ 	default 	error
+------------------
+State  22
+
+Kernel
+( 26)  DECLARA_TIPUS	: DECLARA_SUBRANG _ 
+
+Closure
+( 26)  DECLARA_TIPUS	: DECLARA_SUBRANG _ 
+
+
+ 	default 	reduce  26
+------------------
+State  23
+
+Kernel
+( 27)  DECLARA_TIPUS	: DECLARA_ARRAY _ 
+
+Closure
+( 27)  DECLARA_TIPUS	: DECLARA_ARRAY _ 
+
+
+ 	default 	reduce  27
+------------------
+State  24
+
+Kernel
+( 28)  DECLARA_TIPUS	: DECLARA_RECORD _ 
+
+Closure
+( 28)  DECLARA_TIPUS	: DECLARA_RECORD _ 
+
+
+ 	default 	reduce  28
+------------------
+State  25
+
+Kernel
+( 20)  L_IDS	: ID _ 
+
+Closure
+( 20)  L_IDS	: ID _ 
+
+
+ 	default 	reduce  20
+------------------
+State  26
+
+Kernel
+( 29)  DECLARA_SUBRANG	: PC_TYPE _ ID PC_IS PC_NEW ID PC_RANGE VALOR S_PUNTPUNT VALOR S_PUNTICOMA 
+( 30)  DECLARA_ARRAY	: PC_TYPE _ ID PC_IS PC_ARRAY S_PARENTESIOBERT L_IDS S_PARENTESITANCAT PC_OF ID S_PUNTICOMA 
+( 31)  DECLARA_RECORD	: PC_TYPE _ ID PC_IS PC_RECORD DECLARACIO_CAMPS PC_END PC_RECORD S_PUNTICOMA 
+
+Closure
+( 29)  DECLARA_SUBRANG	: PC_TYPE _ ID PC_IS PC_NEW ID PC_RANGE VALOR S_PUNTPUNT VALOR S_PUNTICOMA 
+( 30)  DECLARA_ARRAY	: PC_TYPE _ ID PC_IS PC_ARRAY S_PARENTESIOBERT L_IDS S_PARENTESITANCAT PC_OF ID S_PUNTICOMA 
+( 31)  DECLARA_RECORD	: PC_TYPE _ ID PC_IS PC_RECORD DECLARACIO_CAMPS PC_END PC_RECORD S_PUNTICOMA 
+
+
+ 	ID 	shift  35
+ 	default 	error
+------------------
+State  27
+
+Kernel
+( 2)  DECLARA_PROC	: PC_PROCEDURE ENCAP PC_IS DECLARACIONS PC_BEGIN _ SENTS PC_END ID S_PUNTICOMA 
+
+Closure
+( 2)  DECLARA_PROC	: PC_PROCEDURE ENCAP PC_IS DECLARACIONS PC_BEGIN _ SENTS PC_END ID S_PUNTICOMA 
+( 35)  SENTS	: _ SENTS SENT 
+( 36)  SENTS	: _ 
+
+
+	SENTS 	goto  36
+ 	default 	reduce  36
+------------------
+State  28
+
+Kernel
+( 12)  DECLARACIONS	: DECLARACIONS DECLARACIO _ 
+
+Closure
+( 12)  DECLARACIONS	: DECLARACIONS DECLARACIO _ 
+
+
+ 	default 	reduce  12
+------------------
+State  29
+
+Kernel
+( 6)  ARGS	: ARGS S_PUNTICOMA D_ARG _ 
+
+Closure
+( 6)  ARGS	: ARGS S_PUNTICOMA D_ARG _ 
+
+
+ 	default 	reduce  6
+------------------
+State  30
+
+Kernel
+( 9)  MODE_PARAMETRE	: PC_IN _ 
+( 11)  MODE_PARAMETRE	: PC_IN _ PC_OUT 
+
+Closure
+( 9)  MODE_PARAMETRE	: PC_IN _ 
+( 11)  MODE_PARAMETRE	: PC_IN _ PC_OUT 
+
+
+ 	PC_OUT 	shift  37
+ 	default 	reduce  9
+------------------
+State  31
+
+Kernel
+( 10)  MODE_PARAMETRE	: PC_OUT _ 
+
+Closure
+( 10)  MODE_PARAMETRE	: PC_OUT _ 
+
+
+ 	default 	reduce  10
+------------------
+State  32
+
+Kernel
+( 8)  D_ARG	: ID S_DOSPUNTS MODE_PARAMETRE _ ID 
+
+Closure
+( 8)  D_ARG	: ID S_DOSPUNTS MODE_PARAMETRE _ ID 
+
+
+ 	ID 	shift  38
+ 	default 	error
+------------------
+State  33
+
+Kernel
+( 18)  DECLARA_VARIABLE	: L_IDS S_DOSPUNTS _ ID S_PUNTICOMA 
+( 21)  DECLARA_CONSTANT	: L_IDS S_DOSPUNTS _ PC_CONSTANT ID S_ASSIGNACIO VALOR S_PUNTICOMA 
+
+Closure
+( 18)  DECLARA_VARIABLE	: L_IDS S_DOSPUNTS _ ID S_PUNTICOMA 
+( 21)  DECLARA_CONSTANT	: L_IDS S_DOSPUNTS _ PC_CONSTANT ID S_ASSIGNACIO VALOR S_PUNTICOMA 
+
+
+ 	PC_CONSTANT 	shift  40
+ 	ID 	shift  39
+ 	default 	error
+------------------
+State  34
+
+Kernel
+( 19)  L_IDS	: L_IDS S_COMA _ ID 
+
+Closure
+( 19)  L_IDS	: L_IDS S_COMA _ ID 
+
+
+ 	ID 	shift  41
+ 	default 	error
+------------------
+State  35
+
+Kernel
+( 29)  DECLARA_SUBRANG	: PC_TYPE ID _ PC_IS PC_NEW ID PC_RANGE VALOR S_PUNTPUNT VALOR S_PUNTICOMA 
+( 30)  DECLARA_ARRAY	: PC_TYPE ID _ PC_IS PC_ARRAY S_PARENTESIOBERT L_IDS S_PARENTESITANCAT PC_OF ID S_PUNTICOMA 
+( 31)  DECLARA_RECORD	: PC_TYPE ID _ PC_IS PC_RECORD DECLARACIO_CAMPS PC_END PC_RECORD S_PUNTICOMA 
+
+Closure
+( 29)  DECLARA_SUBRANG	: PC_TYPE ID _ PC_IS PC_NEW ID PC_RANGE VALOR S_PUNTPUNT VALOR S_PUNTICOMA 
+( 30)  DECLARA_ARRAY	: PC_TYPE ID _ PC_IS PC_ARRAY S_PARENTESIOBERT L_IDS S_PARENTESITANCAT PC_OF ID S_PUNTICOMA 
+( 31)  DECLARA_RECORD	: PC_TYPE ID _ PC_IS PC_RECORD DECLARACIO_CAMPS PC_END PC_RECORD S_PUNTICOMA 
+
+
+ 	PC_IS 	shift  42
+ 	default 	error
+------------------
+State  36
+
+Kernel
+( 2)  DECLARA_PROC	: PC_PROCEDURE ENCAP PC_IS DECLARACIONS PC_BEGIN SENTS _ PC_END ID S_PUNTICOMA 
+( 35)  SENTS	: SENTS _ SENT 
+
+Closure
+( 2)  DECLARA_PROC	: PC_PROCEDURE ENCAP PC_IS DECLARACIONS PC_BEGIN SENTS _ PC_END ID S_PUNTICOMA 
+( 35)  SENTS	: SENTS _ SENT 
+( 37)  SENT	: _ SENT_REP 
+( 38)  SENT	: _ SENT_COND 
+( 39)  SENT	: _ SENT_ASSIG 
+( 40)  SENT	: _ SENT_CRIDA 
+( 41)  SENT_REP	: _ PC_WHILE E PC_LOOP SENTS PC_END PC_LOOP S_PUNTICOMA 
+( 42)  SENT_COND	: _ PC_IF E PC_THEN SENTS PC_END PC_IF S_PUNTICOMA 
+( 43)  SENT_COND	: _ PC_IF E PC_THEN SENTS PC_ELSE SENTS PC_END PC_IF S_PUNTICOMA 
+( 44)  SENT_ASSIG	: _ REFERENCIA S_ASSIGNACIO E S_PUNTICOMA 
+( 45)  REFERENCIA	: _ ID OPCIONS 
+( 52)  SENT_CRIDA	: _ REFERENCIA S_PUNTICOMA 
+
+
+	REFERENCIA 	goto  49
+	SENT_CRIDA 	goto  46
+	SENT_ASSIG 	goto  45
+	SENT_COND 	goto  44
+	SENT_REP 	goto  43
+	SENT 	goto  52
+ 	PC_END 	shift  51
+ 	PC_IF 	shift  48
+ 	PC_WHILE 	shift  47
+ 	ID 	shift  50
+ 	default 	error
+------------------
+State  37
+
+Kernel
+( 11)  MODE_PARAMETRE	: PC_IN PC_OUT _ 
+
+Closure
+( 11)  MODE_PARAMETRE	: PC_IN PC_OUT _ 
+
+
+ 	default 	reduce  11
+------------------
+State  38
+
+Kernel
+( 8)  D_ARG	: ID S_DOSPUNTS MODE_PARAMETRE ID _ 
+
+Closure
+( 8)  D_ARG	: ID S_DOSPUNTS MODE_PARAMETRE ID _ 
+
+
+ 	default 	reduce  8
+------------------
+State  39
+
+Kernel
+( 18)  DECLARA_VARIABLE	: L_IDS S_DOSPUNTS ID _ S_PUNTICOMA 
+
+Closure
+( 18)  DECLARA_VARIABLE	: L_IDS S_DOSPUNTS ID _ S_PUNTICOMA 
+
+
+ 	S_PUNTICOMA 	shift  53
+ 	default 	error
+------------------
+State  40
+
+Kernel
+( 21)  DECLARA_CONSTANT	: L_IDS S_DOSPUNTS PC_CONSTANT _ ID S_ASSIGNACIO VALOR S_PUNTICOMA 
+
+Closure
+( 21)  DECLARA_CONSTANT	: L_IDS S_DOSPUNTS PC_CONSTANT _ ID S_ASSIGNACIO VALOR S_PUNTICOMA 
+
+
+ 	ID 	shift  54
+ 	default 	error
+------------------
+State  41
+
+Kernel
+( 19)  L_IDS	: L_IDS S_COMA ID _ 
+
+Closure
+( 19)  L_IDS	: L_IDS S_COMA ID _ 
+
+
+ 	default 	reduce  19
+------------------
+State  42
+
+Kernel
+( 29)  DECLARA_SUBRANG	: PC_TYPE ID PC_IS _ PC_NEW ID PC_RANGE VALOR S_PUNTPUNT VALOR S_PUNTICOMA 
+( 30)  DECLARA_ARRAY	: PC_TYPE ID PC_IS _ PC_ARRAY S_PARENTESIOBERT L_IDS S_PARENTESITANCAT PC_OF ID S_PUNTICOMA 
+( 31)  DECLARA_RECORD	: PC_TYPE ID PC_IS _ PC_RECORD DECLARACIO_CAMPS PC_END PC_RECORD S_PUNTICOMA 
+
+Closure
+( 29)  DECLARA_SUBRANG	: PC_TYPE ID PC_IS _ PC_NEW ID PC_RANGE VALOR S_PUNTPUNT VALOR S_PUNTICOMA 
+( 30)  DECLARA_ARRAY	: PC_TYPE ID PC_IS _ PC_ARRAY S_PARENTESIOBERT L_IDS S_PARENTESITANCAT PC_OF ID S_PUNTICOMA 
+( 31)  DECLARA_RECORD	: PC_TYPE ID PC_IS _ PC_RECORD DECLARACIO_CAMPS PC_END PC_RECORD S_PUNTICOMA 
+
+
+ 	PC_NEW 	shift  55
+ 	PC_RECORD 	shift  57
+ 	PC_ARRAY 	shift  56
+ 	default 	error
+------------------
+State  43
+
+Kernel
+( 37)  SENT	: SENT_REP _ 
+
+Closure
+( 37)  SENT	: SENT_REP _ 
+
+
+ 	default 	reduce  37
+------------------
+State  44
+
+Kernel
+( 38)  SENT	: SENT_COND _ 
+
+Closure
+( 38)  SENT	: SENT_COND _ 
+
+
+ 	default 	reduce  38
+------------------
+State  45
+
+Kernel
+( 39)  SENT	: SENT_ASSIG _ 
+
+Closure
+( 39)  SENT	: SENT_ASSIG _ 
+
+
+ 	default 	reduce  39
+------------------
+State  46
+
+Kernel
+( 40)  SENT	: SENT_CRIDA _ 
+
+Closure
+( 40)  SENT	: SENT_CRIDA _ 
+
+
+ 	default 	reduce  40
+------------------
+State  47
+
+Kernel
+( 41)  SENT_REP	: PC_WHILE _ E PC_LOOP SENTS PC_END PC_LOOP S_PUNTICOMA 
+
+Closure
+( 41)  SENT_REP	: PC_WHILE _ E PC_LOOP SENTS PC_END PC_LOOP S_PUNTICOMA 
+( 45)  REFERENCIA	: _ ID OPCIONS 
+( 53)  E	: _ E S_MES E 
+( 54)  E	: _ E S_MENYS E 
+( 55)  E	: _ E S_MULTIPLICACIO E 
+( 56)  E	: _ E S_DIVISIO E 
+( 57)  E	: _ E PC_MOD E 
+( 58)  E	: _ E PC_AND E 
+( 59)  E	: _ E PC_OR E 
+( 60)  E	: _ E S_DIFERENT E 
+( 61)  E	: _ E S_RELACIONAL E 
+( 62)  E	: _ S_MENYS E 
+( 63)  E	: _ S_PARENTESIOBERT E S_PARENTESITANCAT 
+( 64)  E	: _ PC_NOT E 
+( 65)  E	: _ REFERENCIA 
+( 66)  E	: _ LITERAL 
+
+
+	REFERENCIA 	goto  62
+	E 	goto  58
+ 	PC_NOT 	shift  61
+ 	S_PARENTESIOBERT 	shift  60
+ 	S_MENYS 	shift  59
+ 	ID 	shift  50
+ 	LITERAL 	shift  63
+ 	default 	error
+------------------
+State  48
+
+Kernel
+( 42)  SENT_COND	: PC_IF _ E PC_THEN SENTS PC_END PC_IF S_PUNTICOMA 
+( 43)  SENT_COND	: PC_IF _ E PC_THEN SENTS PC_ELSE SENTS PC_END PC_IF S_PUNTICOMA 
+
+Closure
+( 42)  SENT_COND	: PC_IF _ E PC_THEN SENTS PC_END PC_IF S_PUNTICOMA 
+( 43)  SENT_COND	: PC_IF _ E PC_THEN SENTS PC_ELSE SENTS PC_END PC_IF S_PUNTICOMA 
+( 45)  REFERENCIA	: _ ID OPCIONS 
+( 53)  E	: _ E S_MES E 
+( 54)  E	: _ E S_MENYS E 
+( 55)  E	: _ E S_MULTIPLICACIO E 
+( 56)  E	: _ E S_DIVISIO E 
+( 57)  E	: _ E PC_MOD E 
+( 58)  E	: _ E PC_AND E 
+( 59)  E	: _ E PC_OR E 
+( 60)  E	: _ E S_DIFERENT E 
+( 61)  E	: _ E S_RELACIONAL E 
+( 62)  E	: _ S_MENYS E 
+( 63)  E	: _ S_PARENTESIOBERT E S_PARENTESITANCAT 
+( 64)  E	: _ PC_NOT E 
+( 65)  E	: _ REFERENCIA 
+( 66)  E	: _ LITERAL 
+
+
+	REFERENCIA 	goto  62
+	E 	goto  64
+ 	PC_NOT 	shift  61
+ 	S_PARENTESIOBERT 	shift  60
+ 	S_MENYS 	shift  59
+ 	ID 	shift  50
+ 	LITERAL 	shift  63
+ 	default 	error
+------------------
+State  49
+
+Kernel
+( 44)  SENT_ASSIG	: REFERENCIA _ S_ASSIGNACIO E S_PUNTICOMA 
+( 52)  SENT_CRIDA	: REFERENCIA _ S_PUNTICOMA 
+
+Closure
+( 44)  SENT_ASSIG	: REFERENCIA _ S_ASSIGNACIO E S_PUNTICOMA 
+( 52)  SENT_CRIDA	: REFERENCIA _ S_PUNTICOMA 
+
+
+ 	S_PUNTICOMA 	shift  66
+ 	S_ASSIGNACIO 	shift  65
+ 	default 	error
+------------------
+State  50
+
+Kernel
+( 45)  REFERENCIA	: ID _ OPCIONS 
+
+Closure
+( 45)  REFERENCIA	: ID _ OPCIONS 
+( 46)  OPCIONS	: _ OPCIONS OPCIO 
+( 47)  OPCIONS	: _ 
+
+
+	OPCIONS 	goto  67
+ 	default 	reduce  47
+------------------
+State  51
+
+Kernel
+( 2)  DECLARA_PROC	: PC_PROCEDURE ENCAP PC_IS DECLARACIONS PC_BEGIN SENTS PC_END _ ID S_PUNTICOMA 
+
+Closure
+( 2)  DECLARA_PROC	: PC_PROCEDURE ENCAP PC_IS DECLARACIONS PC_BEGIN SENTS PC_END _ ID S_PUNTICOMA 
+
+
+ 	ID 	shift  68
+ 	default 	error
+------------------
+State  52
+
+Kernel
+( 35)  SENTS	: SENTS SENT _ 
+
+Closure
+( 35)  SENTS	: SENTS SENT _ 
+
+
+ 	default 	reduce  35
+------------------
+State  53
+
+Kernel
+( 18)  DECLARA_VARIABLE	: L_IDS S_DOSPUNTS ID S_PUNTICOMA _ 
+
+Closure
+( 18)  DECLARA_VARIABLE	: L_IDS S_DOSPUNTS ID S_PUNTICOMA _ 
+
+
+ 	default 	reduce  18
+------------------
+State  54
+
+Kernel
+( 21)  DECLARA_CONSTANT	: L_IDS S_DOSPUNTS PC_CONSTANT ID _ S_ASSIGNACIO VALOR S_PUNTICOMA 
+
+Closure
+( 21)  DECLARA_CONSTANT	: L_IDS S_DOSPUNTS PC_CONSTANT ID _ S_ASSIGNACIO VALOR S_PUNTICOMA 
+
+
+ 	S_ASSIGNACIO 	shift  69
+ 	default 	error
+------------------
+State  55
+
+Kernel
+( 29)  DECLARA_SUBRANG	: PC_TYPE ID PC_IS PC_NEW _ ID PC_RANGE VALOR S_PUNTPUNT VALOR S_PUNTICOMA 
+
+Closure
+( 29)  DECLARA_SUBRANG	: PC_TYPE ID PC_IS PC_NEW _ ID PC_RANGE VALOR S_PUNTPUNT VALOR S_PUNTICOMA 
+
+
+ 	ID 	shift  70
+ 	default 	error
+------------------
+State  56
+
+Kernel
+( 30)  DECLARA_ARRAY	: PC_TYPE ID PC_IS PC_ARRAY _ S_PARENTESIOBERT L_IDS S_PARENTESITANCAT PC_OF ID S_PUNTICOMA 
+
+Closure
+( 30)  DECLARA_ARRAY	: PC_TYPE ID PC_IS PC_ARRAY _ S_PARENTESIOBERT L_IDS S_PARENTESITANCAT PC_OF ID S_PUNTICOMA 
+
+
+ 	S_PARENTESIOBERT 	shift  71
+ 	default 	error
+------------------
+State  57
+
+Kernel
+( 31)  DECLARA_RECORD	: PC_TYPE ID PC_IS PC_RECORD _ DECLARACIO_CAMPS PC_END PC_RECORD S_PUNTICOMA 
+
+Closure
+( 31)  DECLARA_RECORD	: PC_TYPE ID PC_IS PC_RECORD _ DECLARACIO_CAMPS PC_END PC_RECORD S_PUNTICOMA 
+( 32)  DECLARACIO_CAMPS	: _ DECLARACIO_CAMPS DECLARACIO_CAMP 
+( 33)  DECLARACIO_CAMPS	: _ DECLARACIO_CAMP 
+( 34)  DECLARACIO_CAMP	: _ ID S_DOSPUNTS ID S_PUNTICOMA 
+
+
+	DECLARACIO_CAMP 	goto  73
+	DECLARACIO_CAMPS 	goto  72
+ 	ID 	shift  74
+ 	default 	error
+------------------
+State  58
+
+Kernel
+( 41)  SENT_REP	: PC_WHILE E _ PC_LOOP SENTS PC_END PC_LOOP S_PUNTICOMA 
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+
+Closure
+( 41)  SENT_REP	: PC_WHILE E _ PC_LOOP SENTS PC_END PC_LOOP S_PUNTICOMA 
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+
+
+ 	PC_LOOP 	shift  75
+ 	PC_AND 	shift  81
+ 	PC_OR 	shift  82
+ 	PC_MOD 	shift  80
+ 	S_MENYS 	shift  77
+ 	S_MES 	shift  76
+ 	S_MULTIPLICACIO 	shift  78
+ 	S_DIVISIO 	shift  79
+ 	S_RELACIONAL 	shift  84
+ 	S_DIFERENT 	shift  83
+ 	default 	error
+------------------
+State  59
+
+Kernel
+( 62)  E	: S_MENYS _ E 
+
+Closure
+( 45)  REFERENCIA	: _ ID OPCIONS 
+( 53)  E	: _ E S_MES E 
+( 54)  E	: _ E S_MENYS E 
+( 55)  E	: _ E S_MULTIPLICACIO E 
+( 56)  E	: _ E S_DIVISIO E 
+( 57)  E	: _ E PC_MOD E 
+( 58)  E	: _ E PC_AND E 
+( 59)  E	: _ E PC_OR E 
+( 60)  E	: _ E S_DIFERENT E 
+( 61)  E	: _ E S_RELACIONAL E 
+( 62)  E	: _ S_MENYS E 
+( 62)  E	: S_MENYS _ E 
+( 63)  E	: _ S_PARENTESIOBERT E S_PARENTESITANCAT 
+( 64)  E	: _ PC_NOT E 
+( 65)  E	: _ REFERENCIA 
+( 66)  E	: _ LITERAL 
+
+
+	REFERENCIA 	goto  62
+	E 	goto  85
+ 	PC_NOT 	shift  61
+ 	S_PARENTESIOBERT 	shift  60
+ 	S_MENYS 	shift  59
+ 	ID 	shift  50
+ 	LITERAL 	shift  63
+ 	default 	error
+------------------
+State  60
+
+Kernel
+( 63)  E	: S_PARENTESIOBERT _ E S_PARENTESITANCAT 
+
+Closure
+( 45)  REFERENCIA	: _ ID OPCIONS 
+( 53)  E	: _ E S_MES E 
+( 54)  E	: _ E S_MENYS E 
+( 55)  E	: _ E S_MULTIPLICACIO E 
+( 56)  E	: _ E S_DIVISIO E 
+( 57)  E	: _ E PC_MOD E 
+( 58)  E	: _ E PC_AND E 
+( 59)  E	: _ E PC_OR E 
+( 60)  E	: _ E S_DIFERENT E 
+( 61)  E	: _ E S_RELACIONAL E 
+( 62)  E	: _ S_MENYS E 
+( 63)  E	: _ S_PARENTESIOBERT E S_PARENTESITANCAT 
+( 63)  E	: S_PARENTESIOBERT _ E S_PARENTESITANCAT 
+( 64)  E	: _ PC_NOT E 
+( 65)  E	: _ REFERENCIA 
+( 66)  E	: _ LITERAL 
+
+
+	REFERENCIA 	goto  62
+	E 	goto  86
+ 	PC_NOT 	shift  61
+ 	S_PARENTESIOBERT 	shift  60
+ 	S_MENYS 	shift  59
+ 	ID 	shift  50
+ 	LITERAL 	shift  63
+ 	default 	error
+------------------
+State  61
+
+Kernel
+( 64)  E	: PC_NOT _ E 
+
+Closure
+( 45)  REFERENCIA	: _ ID OPCIONS 
+( 53)  E	: _ E S_MES E 
+( 54)  E	: _ E S_MENYS E 
+( 55)  E	: _ E S_MULTIPLICACIO E 
+( 56)  E	: _ E S_DIVISIO E 
+( 57)  E	: _ E PC_MOD E 
+( 58)  E	: _ E PC_AND E 
+( 59)  E	: _ E PC_OR E 
+( 60)  E	: _ E S_DIFERENT E 
+( 61)  E	: _ E S_RELACIONAL E 
+( 62)  E	: _ S_MENYS E 
+( 63)  E	: _ S_PARENTESIOBERT E S_PARENTESITANCAT 
+( 64)  E	: _ PC_NOT E 
+( 64)  E	: PC_NOT _ E 
+( 65)  E	: _ REFERENCIA 
+( 66)  E	: _ LITERAL 
+
+
+	REFERENCIA 	goto  62
+	E 	goto  87
+ 	PC_NOT 	shift  61
+ 	S_PARENTESIOBERT 	shift  60
+ 	S_MENYS 	shift  59
+ 	ID 	shift  50
+ 	LITERAL 	shift  63
+ 	default 	error
+------------------
+State  62
+
+Kernel
+( 65)  E	: REFERENCIA _ 
+
+Closure
+( 65)  E	: REFERENCIA _ 
+
+
+ 	default 	reduce  65
+------------------
+State  63
+
+Kernel
+( 66)  E	: LITERAL _ 
+
+Closure
+( 66)  E	: LITERAL _ 
+
+
+ 	default 	reduce  66
+------------------
+State  64
+
+Kernel
+( 42)  SENT_COND	: PC_IF E _ PC_THEN SENTS PC_END PC_IF S_PUNTICOMA 
+( 43)  SENT_COND	: PC_IF E _ PC_THEN SENTS PC_ELSE SENTS PC_END PC_IF S_PUNTICOMA 
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+
+Closure
+( 42)  SENT_COND	: PC_IF E _ PC_THEN SENTS PC_END PC_IF S_PUNTICOMA 
+( 43)  SENT_COND	: PC_IF E _ PC_THEN SENTS PC_ELSE SENTS PC_END PC_IF S_PUNTICOMA 
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+
+
+ 	PC_THEN 	shift  88
+ 	PC_AND 	shift  81
+ 	PC_OR 	shift  82
+ 	PC_MOD 	shift  80
+ 	S_MENYS 	shift  77
+ 	S_MES 	shift  76
+ 	S_MULTIPLICACIO 	shift  78
+ 	S_DIVISIO 	shift  79
+ 	S_RELACIONAL 	shift  84
+ 	S_DIFERENT 	shift  83
+ 	default 	error
+------------------
+State  65
+
+Kernel
+( 44)  SENT_ASSIG	: REFERENCIA S_ASSIGNACIO _ E S_PUNTICOMA 
+
+Closure
+( 44)  SENT_ASSIG	: REFERENCIA S_ASSIGNACIO _ E S_PUNTICOMA 
+( 45)  REFERENCIA	: _ ID OPCIONS 
+( 53)  E	: _ E S_MES E 
+( 54)  E	: _ E S_MENYS E 
+( 55)  E	: _ E S_MULTIPLICACIO E 
+( 56)  E	: _ E S_DIVISIO E 
+( 57)  E	: _ E PC_MOD E 
+( 58)  E	: _ E PC_AND E 
+( 59)  E	: _ E PC_OR E 
+( 60)  E	: _ E S_DIFERENT E 
+( 61)  E	: _ E S_RELACIONAL E 
+( 62)  E	: _ S_MENYS E 
+( 63)  E	: _ S_PARENTESIOBERT E S_PARENTESITANCAT 
+( 64)  E	: _ PC_NOT E 
+( 65)  E	: _ REFERENCIA 
+( 66)  E	: _ LITERAL 
+
+
+	REFERENCIA 	goto  62
+	E 	goto  89
+ 	PC_NOT 	shift  61
+ 	S_PARENTESIOBERT 	shift  60
+ 	S_MENYS 	shift  59
+ 	ID 	shift  50
+ 	LITERAL 	shift  63
+ 	default 	error
+------------------
+State  66
+
+Kernel
+( 52)  SENT_CRIDA	: REFERENCIA S_PUNTICOMA _ 
+
+Closure
+( 52)  SENT_CRIDA	: REFERENCIA S_PUNTICOMA _ 
+
+
+ 	default 	reduce  52
+------------------
+State  67
+
+Kernel
+( 45)  REFERENCIA	: ID OPCIONS _ 
+( 46)  OPCIONS	: OPCIONS _ OPCIO 
+
+Closure
+( 45)  REFERENCIA	: ID OPCIONS _ 
+( 46)  OPCIONS	: OPCIONS _ OPCIO 
+( 48)  OPCIO	: _ S_PUNT ID 
+( 49)  OPCIO	: _ S_PARENTESIOBERT L_EXPS S_PARENTESITANCAT 
+
+
+	OPCIO 	goto  92
+ 	S_PARENTESIOBERT 	shift  91
+ 	S_PUNT 	shift  90
+ 	default 	reduce  45
+------------------
+State  68
+
+Kernel
+( 2)  DECLARA_PROC	: PC_PROCEDURE ENCAP PC_IS DECLARACIONS PC_BEGIN SENTS PC_END ID _ S_PUNTICOMA 
+
+Closure
+( 2)  DECLARA_PROC	: PC_PROCEDURE ENCAP PC_IS DECLARACIONS PC_BEGIN SENTS PC_END ID _ S_PUNTICOMA 
+
+
+ 	S_PUNTICOMA 	shift  93
+ 	default 	error
+------------------
+State  69
+
+Kernel
+( 21)  DECLARA_CONSTANT	: L_IDS S_DOSPUNTS PC_CONSTANT ID S_ASSIGNACIO _ VALOR S_PUNTICOMA 
+
+Closure
+( 21)  DECLARA_CONSTANT	: L_IDS S_DOSPUNTS PC_CONSTANT ID S_ASSIGNACIO _ VALOR S_PUNTICOMA 
+( 22)  VALOR	: _ LITERAL 
+( 23)  VALOR	: _ S_MENYS LITERAL 
+( 24)  VALOR	: _ ID 
+( 25)  VALOR	: _ S_MENYS ID 
+
+
+	VALOR 	goto  97
+ 	S_MENYS 	shift  95
+ 	ID 	shift  96
+ 	LITERAL 	shift  94
+ 	default 	error
+------------------
+State  70
+
+Kernel
+( 29)  DECLARA_SUBRANG	: PC_TYPE ID PC_IS PC_NEW ID _ PC_RANGE VALOR S_PUNTPUNT VALOR S_PUNTICOMA 
+
+Closure
+( 29)  DECLARA_SUBRANG	: PC_TYPE ID PC_IS PC_NEW ID _ PC_RANGE VALOR S_PUNTPUNT VALOR S_PUNTICOMA 
+
+
+ 	PC_RANGE 	shift  98
+ 	default 	error
+------------------
+State  71
+
+Kernel
+( 30)  DECLARA_ARRAY	: PC_TYPE ID PC_IS PC_ARRAY S_PARENTESIOBERT _ L_IDS S_PARENTESITANCAT PC_OF ID S_PUNTICOMA 
+
+Closure
+( 19)  L_IDS	: _ L_IDS S_COMA ID 
+( 20)  L_IDS	: _ ID 
+( 30)  DECLARA_ARRAY	: PC_TYPE ID PC_IS PC_ARRAY S_PARENTESIOBERT _ L_IDS S_PARENTESITANCAT PC_OF ID S_PUNTICOMA 
+
+
+	L_IDS 	goto  99
+ 	ID 	shift  25
+ 	default 	error
+------------------
+State  72
+
+Kernel
+( 31)  DECLARA_RECORD	: PC_TYPE ID PC_IS PC_RECORD DECLARACIO_CAMPS _ PC_END PC_RECORD S_PUNTICOMA 
+( 32)  DECLARACIO_CAMPS	: DECLARACIO_CAMPS _ DECLARACIO_CAMP 
+
+Closure
+( 31)  DECLARA_RECORD	: PC_TYPE ID PC_IS PC_RECORD DECLARACIO_CAMPS _ PC_END PC_RECORD S_PUNTICOMA 
+( 32)  DECLARACIO_CAMPS	: DECLARACIO_CAMPS _ DECLARACIO_CAMP 
+( 34)  DECLARACIO_CAMP	: _ ID S_DOSPUNTS ID S_PUNTICOMA 
+
+
+	DECLARACIO_CAMP 	goto  101
+ 	PC_END 	shift  100
+ 	ID 	shift  74
+ 	default 	error
+------------------
+State  73
+
+Kernel
+( 33)  DECLARACIO_CAMPS	: DECLARACIO_CAMP _ 
+
+Closure
+( 33)  DECLARACIO_CAMPS	: DECLARACIO_CAMP _ 
+
+
+ 	default 	reduce  33
+------------------
+State  74
+
+Kernel
+( 34)  DECLARACIO_CAMP	: ID _ S_DOSPUNTS ID S_PUNTICOMA 
+
+Closure
+( 34)  DECLARACIO_CAMP	: ID _ S_DOSPUNTS ID S_PUNTICOMA 
+
+
+ 	S_DOSPUNTS 	shift  102
+ 	default 	error
+------------------
+State  75
+
+Kernel
+( 41)  SENT_REP	: PC_WHILE E PC_LOOP _ SENTS PC_END PC_LOOP S_PUNTICOMA 
+
+Closure
+( 35)  SENTS	: _ SENTS SENT 
+( 36)  SENTS	: _ 
+( 41)  SENT_REP	: PC_WHILE E PC_LOOP _ SENTS PC_END PC_LOOP S_PUNTICOMA 
+
+
+	SENTS 	goto  103
+ 	default 	reduce  36
+------------------
+State  76
+
+Kernel
+( 53)  E	: E S_MES _ E 
+
+Closure
+( 45)  REFERENCIA	: _ ID OPCIONS 
+( 53)  E	: _ E S_MES E 
+( 53)  E	: E S_MES _ E 
+( 54)  E	: _ E S_MENYS E 
+( 55)  E	: _ E S_MULTIPLICACIO E 
+( 56)  E	: _ E S_DIVISIO E 
+( 57)  E	: _ E PC_MOD E 
+( 58)  E	: _ E PC_AND E 
+( 59)  E	: _ E PC_OR E 
+( 60)  E	: _ E S_DIFERENT E 
+( 61)  E	: _ E S_RELACIONAL E 
+( 62)  E	: _ S_MENYS E 
+( 63)  E	: _ S_PARENTESIOBERT E S_PARENTESITANCAT 
+( 64)  E	: _ PC_NOT E 
+( 65)  E	: _ REFERENCIA 
+( 66)  E	: _ LITERAL 
+
+
+	REFERENCIA 	goto  62
+	E 	goto  104
+ 	PC_NOT 	shift  61
+ 	S_PARENTESIOBERT 	shift  60
+ 	S_MENYS 	shift  59
+ 	ID 	shift  50
+ 	LITERAL 	shift  63
+ 	default 	error
+------------------
+State  77
+
+Kernel
+( 54)  E	: E S_MENYS _ E 
+
+Closure
+( 45)  REFERENCIA	: _ ID OPCIONS 
+( 53)  E	: _ E S_MES E 
+( 54)  E	: _ E S_MENYS E 
+( 54)  E	: E S_MENYS _ E 
+( 55)  E	: _ E S_MULTIPLICACIO E 
+( 56)  E	: _ E S_DIVISIO E 
+( 57)  E	: _ E PC_MOD E 
+( 58)  E	: _ E PC_AND E 
+( 59)  E	: _ E PC_OR E 
+( 60)  E	: _ E S_DIFERENT E 
+( 61)  E	: _ E S_RELACIONAL E 
+( 62)  E	: _ S_MENYS E 
+( 63)  E	: _ S_PARENTESIOBERT E S_PARENTESITANCAT 
+( 64)  E	: _ PC_NOT E 
+( 65)  E	: _ REFERENCIA 
+( 66)  E	: _ LITERAL 
+
+
+	REFERENCIA 	goto  62
+	E 	goto  105
+ 	PC_NOT 	shift  61
+ 	S_PARENTESIOBERT 	shift  60
+ 	S_MENYS 	shift  59
+ 	ID 	shift  50
+ 	LITERAL 	shift  63
+ 	default 	error
+------------------
+State  78
+
+Kernel
+( 55)  E	: E S_MULTIPLICACIO _ E 
+
+Closure
+( 45)  REFERENCIA	: _ ID OPCIONS 
+( 53)  E	: _ E S_MES E 
+( 54)  E	: _ E S_MENYS E 
+( 55)  E	: _ E S_MULTIPLICACIO E 
+( 55)  E	: E S_MULTIPLICACIO _ E 
+( 56)  E	: _ E S_DIVISIO E 
+( 57)  E	: _ E PC_MOD E 
+( 58)  E	: _ E PC_AND E 
+( 59)  E	: _ E PC_OR E 
+( 60)  E	: _ E S_DIFERENT E 
+( 61)  E	: _ E S_RELACIONAL E 
+( 62)  E	: _ S_MENYS E 
+( 63)  E	: _ S_PARENTESIOBERT E S_PARENTESITANCAT 
+( 64)  E	: _ PC_NOT E 
+( 65)  E	: _ REFERENCIA 
+( 66)  E	: _ LITERAL 
+
+
+	REFERENCIA 	goto  62
+	E 	goto  106
+ 	PC_NOT 	shift  61
+ 	S_PARENTESIOBERT 	shift  60
+ 	S_MENYS 	shift  59
+ 	ID 	shift  50
+ 	LITERAL 	shift  63
+ 	default 	error
+------------------
+State  79
+
+Kernel
+( 56)  E	: E S_DIVISIO _ E 
+
+Closure
+( 45)  REFERENCIA	: _ ID OPCIONS 
+( 53)  E	: _ E S_MES E 
+( 54)  E	: _ E S_MENYS E 
+( 55)  E	: _ E S_MULTIPLICACIO E 
+( 56)  E	: _ E S_DIVISIO E 
+( 56)  E	: E S_DIVISIO _ E 
+( 57)  E	: _ E PC_MOD E 
+( 58)  E	: _ E PC_AND E 
+( 59)  E	: _ E PC_OR E 
+( 60)  E	: _ E S_DIFERENT E 
+( 61)  E	: _ E S_RELACIONAL E 
+( 62)  E	: _ S_MENYS E 
+( 63)  E	: _ S_PARENTESIOBERT E S_PARENTESITANCAT 
+( 64)  E	: _ PC_NOT E 
+( 65)  E	: _ REFERENCIA 
+( 66)  E	: _ LITERAL 
+
+
+	REFERENCIA 	goto  62
+	E 	goto  107
+ 	PC_NOT 	shift  61
+ 	S_PARENTESIOBERT 	shift  60
+ 	S_MENYS 	shift  59
+ 	ID 	shift  50
+ 	LITERAL 	shift  63
+ 	default 	error
+------------------
+State  80
+
+Kernel
+( 57)  E	: E PC_MOD _ E 
+
+Closure
+( 45)  REFERENCIA	: _ ID OPCIONS 
+( 53)  E	: _ E S_MES E 
+( 54)  E	: _ E S_MENYS E 
+( 55)  E	: _ E S_MULTIPLICACIO E 
+( 56)  E	: _ E S_DIVISIO E 
+( 57)  E	: _ E PC_MOD E 
+( 57)  E	: E PC_MOD _ E 
+( 58)  E	: _ E PC_AND E 
+( 59)  E	: _ E PC_OR E 
+( 60)  E	: _ E S_DIFERENT E 
+( 61)  E	: _ E S_RELACIONAL E 
+( 62)  E	: _ S_MENYS E 
+( 63)  E	: _ S_PARENTESIOBERT E S_PARENTESITANCAT 
+( 64)  E	: _ PC_NOT E 
+( 65)  E	: _ REFERENCIA 
+( 66)  E	: _ LITERAL 
+
+
+	REFERENCIA 	goto  62
+	E 	goto  108
+ 	PC_NOT 	shift  61
+ 	S_PARENTESIOBERT 	shift  60
+ 	S_MENYS 	shift  59
+ 	ID 	shift  50
+ 	LITERAL 	shift  63
+ 	default 	error
+------------------
+State  81
+
+Kernel
+( 58)  E	: E PC_AND _ E 
+
+Closure
+( 45)  REFERENCIA	: _ ID OPCIONS 
+( 53)  E	: _ E S_MES E 
+( 54)  E	: _ E S_MENYS E 
+( 55)  E	: _ E S_MULTIPLICACIO E 
+( 56)  E	: _ E S_DIVISIO E 
+( 57)  E	: _ E PC_MOD E 
+( 58)  E	: _ E PC_AND E 
+( 58)  E	: E PC_AND _ E 
+( 59)  E	: _ E PC_OR E 
+( 60)  E	: _ E S_DIFERENT E 
+( 61)  E	: _ E S_RELACIONAL E 
+( 62)  E	: _ S_MENYS E 
+( 63)  E	: _ S_PARENTESIOBERT E S_PARENTESITANCAT 
+( 64)  E	: _ PC_NOT E 
+( 65)  E	: _ REFERENCIA 
+( 66)  E	: _ LITERAL 
+
+
+	REFERENCIA 	goto  62
+	E 	goto  109
+ 	PC_NOT 	shift  61
+ 	S_PARENTESIOBERT 	shift  60
+ 	S_MENYS 	shift  59
+ 	ID 	shift  50
+ 	LITERAL 	shift  63
+ 	default 	error
+------------------
+State  82
+
+Kernel
+( 59)  E	: E PC_OR _ E 
+
+Closure
+( 45)  REFERENCIA	: _ ID OPCIONS 
+( 53)  E	: _ E S_MES E 
+( 54)  E	: _ E S_MENYS E 
+( 55)  E	: _ E S_MULTIPLICACIO E 
+( 56)  E	: _ E S_DIVISIO E 
+( 57)  E	: _ E PC_MOD E 
+( 58)  E	: _ E PC_AND E 
+( 59)  E	: _ E PC_OR E 
+( 59)  E	: E PC_OR _ E 
+( 60)  E	: _ E S_DIFERENT E 
+( 61)  E	: _ E S_RELACIONAL E 
+( 62)  E	: _ S_MENYS E 
+( 63)  E	: _ S_PARENTESIOBERT E S_PARENTESITANCAT 
+( 64)  E	: _ PC_NOT E 
+( 65)  E	: _ REFERENCIA 
+( 66)  E	: _ LITERAL 
+
+
+	REFERENCIA 	goto  62
+	E 	goto  110
+ 	PC_NOT 	shift  61
+ 	S_PARENTESIOBERT 	shift  60
+ 	S_MENYS 	shift  59
+ 	ID 	shift  50
+ 	LITERAL 	shift  63
+ 	default 	error
+------------------
+State  83
+
+Kernel
+( 60)  E	: E S_DIFERENT _ E 
+
+Closure
+( 45)  REFERENCIA	: _ ID OPCIONS 
+( 53)  E	: _ E S_MES E 
+( 54)  E	: _ E S_MENYS E 
+( 55)  E	: _ E S_MULTIPLICACIO E 
+( 56)  E	: _ E S_DIVISIO E 
+( 57)  E	: _ E PC_MOD E 
+( 58)  E	: _ E PC_AND E 
+( 59)  E	: _ E PC_OR E 
+( 60)  E	: _ E S_DIFERENT E 
+( 60)  E	: E S_DIFERENT _ E 
+( 61)  E	: _ E S_RELACIONAL E 
+( 62)  E	: _ S_MENYS E 
+( 63)  E	: _ S_PARENTESIOBERT E S_PARENTESITANCAT 
+( 64)  E	: _ PC_NOT E 
+( 65)  E	: _ REFERENCIA 
+( 66)  E	: _ LITERAL 
+
+
+	REFERENCIA 	goto  62
+	E 	goto  111
+ 	PC_NOT 	shift  61
+ 	S_PARENTESIOBERT 	shift  60
+ 	S_MENYS 	shift  59
+ 	ID 	shift  50
+ 	LITERAL 	shift  63
+ 	default 	error
+------------------
+State  84
+
+Kernel
+( 61)  E	: E S_RELACIONAL _ E 
+
+Closure
+( 45)  REFERENCIA	: _ ID OPCIONS 
+( 53)  E	: _ E S_MES E 
+( 54)  E	: _ E S_MENYS E 
+( 55)  E	: _ E S_MULTIPLICACIO E 
+( 56)  E	: _ E S_DIVISIO E 
+( 57)  E	: _ E PC_MOD E 
+( 58)  E	: _ E PC_AND E 
+( 59)  E	: _ E PC_OR E 
+( 60)  E	: _ E S_DIFERENT E 
+( 61)  E	: _ E S_RELACIONAL E 
+( 61)  E	: E S_RELACIONAL _ E 
+( 62)  E	: _ S_MENYS E 
+( 63)  E	: _ S_PARENTESIOBERT E S_PARENTESITANCAT 
+( 64)  E	: _ PC_NOT E 
+( 65)  E	: _ REFERENCIA 
+( 66)  E	: _ LITERAL 
+
+
+	REFERENCIA 	goto  62
+	E 	goto  112
+ 	PC_NOT 	shift  61
+ 	S_PARENTESIOBERT 	shift  60
+ 	S_MENYS 	shift  59
+ 	ID 	shift  50
+ 	LITERAL 	shift  63
+ 	default 	error
+------------------
+State  85
+
+Kernel
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+( 62)  E	: S_MENYS E _ 
+
+Closure
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+( 62)  E	: S_MENYS E _ 
+
+
+ 	PC_MOD 	shift  80
+ 	S_MULTIPLICACIO 	shift  78
+ 	S_DIVISIO 	shift  79
+ 	default 	reduce  62
+------------------
+State  86
+
+Kernel
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+( 63)  E	: S_PARENTESIOBERT E _ S_PARENTESITANCAT 
+
+Closure
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+( 63)  E	: S_PARENTESIOBERT E _ S_PARENTESITANCAT 
+
+
+ 	PC_AND 	shift  81
+ 	PC_OR 	shift  82
+ 	PC_MOD 	shift  80
+ 	S_PARENTESITANCAT 	shift  113
+ 	S_MENYS 	shift  77
+ 	S_MES 	shift  76
+ 	S_MULTIPLICACIO 	shift  78
+ 	S_DIVISIO 	shift  79
+ 	S_RELACIONAL 	shift  84
+ 	S_DIFERENT 	shift  83
+ 	default 	error
+------------------
+State  87
+
+Kernel
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+( 64)  E	: PC_NOT E _ 
+
+Closure
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+( 64)  E	: PC_NOT E _ 
+
+
+ 	PC_MOD 	shift  80
+ 	S_MENYS 	shift  77
+ 	S_MES 	shift  76
+ 	S_MULTIPLICACIO 	shift  78
+ 	S_DIVISIO 	shift  79
+ 	S_RELACIONAL 	shift  84
+ 	S_DIFERENT 	shift  83
+ 	default 	reduce  64
+------------------
+State  88
+
+Kernel
+( 42)  SENT_COND	: PC_IF E PC_THEN _ SENTS PC_END PC_IF S_PUNTICOMA 
+( 43)  SENT_COND	: PC_IF E PC_THEN _ SENTS PC_ELSE SENTS PC_END PC_IF S_PUNTICOMA 
+
+Closure
+( 35)  SENTS	: _ SENTS SENT 
+( 36)  SENTS	: _ 
+( 42)  SENT_COND	: PC_IF E PC_THEN _ SENTS PC_END PC_IF S_PUNTICOMA 
+( 43)  SENT_COND	: PC_IF E PC_THEN _ SENTS PC_ELSE SENTS PC_END PC_IF S_PUNTICOMA 
+
+
+	SENTS 	goto  114
+ 	default 	reduce  36
+------------------
+State  89
+
+Kernel
+( 44)  SENT_ASSIG	: REFERENCIA S_ASSIGNACIO E _ S_PUNTICOMA 
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+
+Closure
+( 44)  SENT_ASSIG	: REFERENCIA S_ASSIGNACIO E _ S_PUNTICOMA 
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+
+
+ 	PC_AND 	shift  81
+ 	PC_OR 	shift  82
+ 	PC_MOD 	shift  80
+ 	S_PUNTICOMA 	shift  115
+ 	S_MENYS 	shift  77
+ 	S_MES 	shift  76
+ 	S_MULTIPLICACIO 	shift  78
+ 	S_DIVISIO 	shift  79
+ 	S_RELACIONAL 	shift  84
+ 	S_DIFERENT 	shift  83
+ 	default 	error
+------------------
+State  90
+
+Kernel
+( 48)  OPCIO	: S_PUNT _ ID 
+
+Closure
+( 48)  OPCIO	: S_PUNT _ ID 
+
+
+ 	ID 	shift  116
+ 	default 	error
+------------------
+State  91
+
+Kernel
+( 49)  OPCIO	: S_PARENTESIOBERT _ L_EXPS S_PARENTESITANCAT 
+
+Closure
+( 45)  REFERENCIA	: _ ID OPCIONS 
+( 49)  OPCIO	: S_PARENTESIOBERT _ L_EXPS S_PARENTESITANCAT 
+( 50)  L_EXPS	: _ L_EXPS S_COMA E 
+( 51)  L_EXPS	: _ E 
+( 53)  E	: _ E S_MES E 
+( 54)  E	: _ E S_MENYS E 
+( 55)  E	: _ E S_MULTIPLICACIO E 
+( 56)  E	: _ E S_DIVISIO E 
+( 57)  E	: _ E PC_MOD E 
+( 58)  E	: _ E PC_AND E 
+( 59)  E	: _ E PC_OR E 
+( 60)  E	: _ E S_DIFERENT E 
+( 61)  E	: _ E S_RELACIONAL E 
+( 62)  E	: _ S_MENYS E 
+( 63)  E	: _ S_PARENTESIOBERT E S_PARENTESITANCAT 
+( 64)  E	: _ PC_NOT E 
+( 65)  E	: _ REFERENCIA 
+( 66)  E	: _ LITERAL 
+
+
+	L_EXPS 	goto  117
+	REFERENCIA 	goto  62
+	E 	goto  118
+ 	PC_NOT 	shift  61
+ 	S_PARENTESIOBERT 	shift  60
+ 	S_MENYS 	shift  59
+ 	ID 	shift  50
+ 	LITERAL 	shift  63
+ 	default 	error
+------------------
+State  92
+
+Kernel
+( 46)  OPCIONS	: OPCIONS OPCIO _ 
+
+Closure
+( 46)  OPCIONS	: OPCIONS OPCIO _ 
+
+
+ 	default 	reduce  46
+------------------
+State  93
+
+Kernel
+( 2)  DECLARA_PROC	: PC_PROCEDURE ENCAP PC_IS DECLARACIONS PC_BEGIN SENTS PC_END ID S_PUNTICOMA _ 
+
+Closure
+( 2)  DECLARA_PROC	: PC_PROCEDURE ENCAP PC_IS DECLARACIONS PC_BEGIN SENTS PC_END ID S_PUNTICOMA _ 
+
+
+ 	default 	reduce  2
+------------------
+State  94
+
+Kernel
+( 22)  VALOR	: LITERAL _ 
+
+Closure
+( 22)  VALOR	: LITERAL _ 
+
+
+ 	default 	reduce  22
+------------------
+State  95
+
+Kernel
+( 23)  VALOR	: S_MENYS _ LITERAL 
+( 25)  VALOR	: S_MENYS _ ID 
+
+Closure
+( 23)  VALOR	: S_MENYS _ LITERAL 
+( 25)  VALOR	: S_MENYS _ ID 
+
+
+ 	ID 	shift  120
+ 	LITERAL 	shift  119
+ 	default 	error
+------------------
+State  96
+
+Kernel
+( 24)  VALOR	: ID _ 
+
+Closure
+( 24)  VALOR	: ID _ 
+
+
+ 	default 	reduce  24
+------------------
+State  97
+
+Kernel
+( 21)  DECLARA_CONSTANT	: L_IDS S_DOSPUNTS PC_CONSTANT ID S_ASSIGNACIO VALOR _ S_PUNTICOMA 
+
+Closure
+( 21)  DECLARA_CONSTANT	: L_IDS S_DOSPUNTS PC_CONSTANT ID S_ASSIGNACIO VALOR _ S_PUNTICOMA 
+
+
+ 	S_PUNTICOMA 	shift  121
+ 	default 	error
+------------------
+State  98
+
+Kernel
+( 29)  DECLARA_SUBRANG	: PC_TYPE ID PC_IS PC_NEW ID PC_RANGE _ VALOR S_PUNTPUNT VALOR S_PUNTICOMA 
+
+Closure
+( 22)  VALOR	: _ LITERAL 
+( 23)  VALOR	: _ S_MENYS LITERAL 
+( 24)  VALOR	: _ ID 
+( 25)  VALOR	: _ S_MENYS ID 
+( 29)  DECLARA_SUBRANG	: PC_TYPE ID PC_IS PC_NEW ID PC_RANGE _ VALOR S_PUNTPUNT VALOR S_PUNTICOMA 
+
+
+	VALOR 	goto  122
+ 	S_MENYS 	shift  95
+ 	ID 	shift  96
+ 	LITERAL 	shift  94
+ 	default 	error
+------------------
+State  99
+
+Kernel
+( 19)  L_IDS	: L_IDS _ S_COMA ID 
+( 30)  DECLARA_ARRAY	: PC_TYPE ID PC_IS PC_ARRAY S_PARENTESIOBERT L_IDS _ S_PARENTESITANCAT PC_OF ID S_PUNTICOMA 
+
+Closure
+( 19)  L_IDS	: L_IDS _ S_COMA ID 
+( 30)  DECLARA_ARRAY	: PC_TYPE ID PC_IS PC_ARRAY S_PARENTESIOBERT L_IDS _ S_PARENTESITANCAT PC_OF ID S_PUNTICOMA 
+
+
+ 	S_PARENTESITANCAT 	shift  123
+ 	S_COMA 	shift  34
+ 	default 	error
+------------------
+State  100
+
+Kernel
+( 31)  DECLARA_RECORD	: PC_TYPE ID PC_IS PC_RECORD DECLARACIO_CAMPS PC_END _ PC_RECORD S_PUNTICOMA 
+
+Closure
+( 31)  DECLARA_RECORD	: PC_TYPE ID PC_IS PC_RECORD DECLARACIO_CAMPS PC_END _ PC_RECORD S_PUNTICOMA 
+
+
+ 	PC_RECORD 	shift  124
+ 	default 	error
+------------------
+State  101
+
+Kernel
+( 32)  DECLARACIO_CAMPS	: DECLARACIO_CAMPS DECLARACIO_CAMP _ 
+
+Closure
+( 32)  DECLARACIO_CAMPS	: DECLARACIO_CAMPS DECLARACIO_CAMP _ 
+
+
+ 	default 	reduce  32
+------------------
+State  102
+
+Kernel
+( 34)  DECLARACIO_CAMP	: ID S_DOSPUNTS _ ID S_PUNTICOMA 
+
+Closure
+( 34)  DECLARACIO_CAMP	: ID S_DOSPUNTS _ ID S_PUNTICOMA 
+
+
+ 	ID 	shift  125
+ 	default 	error
+------------------
+State  103
+
+Kernel
+( 35)  SENTS	: SENTS _ SENT 
+( 41)  SENT_REP	: PC_WHILE E PC_LOOP SENTS _ PC_END PC_LOOP S_PUNTICOMA 
+
+Closure
+( 35)  SENTS	: SENTS _ SENT 
+( 37)  SENT	: _ SENT_REP 
+( 38)  SENT	: _ SENT_COND 
+( 39)  SENT	: _ SENT_ASSIG 
+( 40)  SENT	: _ SENT_CRIDA 
+( 41)  SENT_REP	: _ PC_WHILE E PC_LOOP SENTS PC_END PC_LOOP S_PUNTICOMA 
+( 41)  SENT_REP	: PC_WHILE E PC_LOOP SENTS _ PC_END PC_LOOP S_PUNTICOMA 
+( 42)  SENT_COND	: _ PC_IF E PC_THEN SENTS PC_END PC_IF S_PUNTICOMA 
+( 43)  SENT_COND	: _ PC_IF E PC_THEN SENTS PC_ELSE SENTS PC_END PC_IF S_PUNTICOMA 
+( 44)  SENT_ASSIG	: _ REFERENCIA S_ASSIGNACIO E S_PUNTICOMA 
+( 45)  REFERENCIA	: _ ID OPCIONS 
+( 52)  SENT_CRIDA	: _ REFERENCIA S_PUNTICOMA 
+
+
+	REFERENCIA 	goto  49
+	SENT_CRIDA 	goto  46
+	SENT_ASSIG 	goto  45
+	SENT_COND 	goto  44
+	SENT_REP 	goto  43
+	SENT 	goto  52
+ 	PC_END 	shift  126
+ 	PC_IF 	shift  48
+ 	PC_WHILE 	shift  47
+ 	ID 	shift  50
+ 	default 	error
+------------------
+State  104
+
+Kernel
+( 53)  E	: E _ S_MES E 
+( 53)  E	: E S_MES E _ 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+
+Closure
+( 53)  E	: E _ S_MES E 
+( 53)  E	: E S_MES E _ 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+
+
+ 	PC_MOD 	shift  80
+ 	S_MULTIPLICACIO 	shift  78
+ 	S_DIVISIO 	shift  79
+ 	default 	reduce  53
+------------------
+State  105
+
+Kernel
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 54)  E	: E S_MENYS E _ 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+
+Closure
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 54)  E	: E S_MENYS E _ 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+
+
+ 	PC_MOD 	shift  80
+ 	S_MULTIPLICACIO 	shift  78
+ 	S_DIVISIO 	shift  79
+ 	default 	reduce  54
+------------------
+State  106
+
+Kernel
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 55)  E	: E S_MULTIPLICACIO E _ 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+
+Closure
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 55)  E	: E S_MULTIPLICACIO E _ 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+
+
+ 	default 	reduce  55
+------------------
+State  107
+
+Kernel
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 56)  E	: E S_DIVISIO E _ 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+
+Closure
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 56)  E	: E S_DIVISIO E _ 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+
+
+ 	default 	reduce  56
+------------------
+State  108
+
+Kernel
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 57)  E	: E PC_MOD E _ 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+
+Closure
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 57)  E	: E PC_MOD E _ 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+
+
+ 	default 	reduce  57
+------------------
+State  109
+
+Kernel
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 58)  E	: E PC_AND E _ 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+
+Closure
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 58)  E	: E PC_AND E _ 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+
+
+ 	PC_MOD 	shift  80
+ 	S_MENYS 	shift  77
+ 	S_MES 	shift  76
+ 	S_MULTIPLICACIO 	shift  78
+ 	S_DIVISIO 	shift  79
+ 	S_RELACIONAL 	shift  84
+ 	S_DIFERENT 	shift  83
+ 	default 	reduce  58
+------------------
+State  110
+
+Kernel
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 59)  E	: E PC_OR E _ 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+
+Closure
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 59)  E	: E PC_OR E _ 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+
+
+ 	PC_MOD 	shift  80
+ 	S_MENYS 	shift  77
+ 	S_MES 	shift  76
+ 	S_MULTIPLICACIO 	shift  78
+ 	S_DIVISIO 	shift  79
+ 	S_RELACIONAL 	shift  84
+ 	S_DIFERENT 	shift  83
+ 	default 	reduce  59
+------------------
+State  111
+
+Kernel
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 60)  E	: E S_DIFERENT E _ 
+( 61)  E	: E _ S_RELACIONAL E 
+
+Closure
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 60)  E	: E S_DIFERENT E _ 
+( 61)  E	: E _ S_RELACIONAL E 
+
+
+ 	PC_MOD 	shift  80
+ 	S_MENYS 	shift  77
+ 	S_MES 	shift  76
+ 	S_MULTIPLICACIO 	shift  78
+ 	S_DIVISIO 	shift  79
+ 	S_RELACIONAL 	error
+ 	S_DIFERENT 	error
+ 	default 	reduce  60
+------------------
+State  112
+
+Kernel
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+( 61)  E	: E S_RELACIONAL E _ 
+
+Closure
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+( 61)  E	: E S_RELACIONAL E _ 
+
+
+ 	PC_MOD 	shift  80
+ 	S_MENYS 	shift  77
+ 	S_MES 	shift  76
+ 	S_MULTIPLICACIO 	shift  78
+ 	S_DIVISIO 	shift  79
+ 	S_RELACIONAL 	error
+ 	S_DIFERENT 	error
+ 	default 	reduce  61
+------------------
+State  113
+
+Kernel
+( 63)  E	: S_PARENTESIOBERT E S_PARENTESITANCAT _ 
+
+Closure
+( 63)  E	: S_PARENTESIOBERT E S_PARENTESITANCAT _ 
+
+
+ 	default 	reduce  63
+------------------
+State  114
+
+Kernel
+( 35)  SENTS	: SENTS _ SENT 
+( 42)  SENT_COND	: PC_IF E PC_THEN SENTS _ PC_END PC_IF S_PUNTICOMA 
+( 43)  SENT_COND	: PC_IF E PC_THEN SENTS _ PC_ELSE SENTS PC_END PC_IF S_PUNTICOMA 
+
+Closure
+( 35)  SENTS	: SENTS _ SENT 
+( 37)  SENT	: _ SENT_REP 
+( 38)  SENT	: _ SENT_COND 
+( 39)  SENT	: _ SENT_ASSIG 
+( 40)  SENT	: _ SENT_CRIDA 
+( 41)  SENT_REP	: _ PC_WHILE E PC_LOOP SENTS PC_END PC_LOOP S_PUNTICOMA 
+( 42)  SENT_COND	: _ PC_IF E PC_THEN SENTS PC_END PC_IF S_PUNTICOMA 
+( 42)  SENT_COND	: PC_IF E PC_THEN SENTS _ PC_END PC_IF S_PUNTICOMA 
+( 43)  SENT_COND	: _ PC_IF E PC_THEN SENTS PC_ELSE SENTS PC_END PC_IF S_PUNTICOMA 
+( 43)  SENT_COND	: PC_IF E PC_THEN SENTS _ PC_ELSE SENTS PC_END PC_IF S_PUNTICOMA 
+( 44)  SENT_ASSIG	: _ REFERENCIA S_ASSIGNACIO E S_PUNTICOMA 
+( 45)  REFERENCIA	: _ ID OPCIONS 
+( 52)  SENT_CRIDA	: _ REFERENCIA S_PUNTICOMA 
+
+
+	REFERENCIA 	goto  49
+	SENT_CRIDA 	goto  46
+	SENT_ASSIG 	goto  45
+	SENT_COND 	goto  44
+	SENT_REP 	goto  43
+	SENT 	goto  52
+ 	PC_END 	shift  127
+ 	PC_IF 	shift  48
+ 	PC_ELSE 	shift  128
+ 	PC_WHILE 	shift  47
+ 	ID 	shift  50
+ 	default 	error
+------------------
+State  115
+
+Kernel
+( 44)  SENT_ASSIG	: REFERENCIA S_ASSIGNACIO E S_PUNTICOMA _ 
+
+Closure
+( 44)  SENT_ASSIG	: REFERENCIA S_ASSIGNACIO E S_PUNTICOMA _ 
+
+
+ 	default 	reduce  44
+------------------
+State  116
+
+Kernel
+( 48)  OPCIO	: S_PUNT ID _ 
+
+Closure
+( 48)  OPCIO	: S_PUNT ID _ 
+
+
+ 	default 	reduce  48
+------------------
+State  117
+
+Kernel
+( 49)  OPCIO	: S_PARENTESIOBERT L_EXPS _ S_PARENTESITANCAT 
+( 50)  L_EXPS	: L_EXPS _ S_COMA E 
+
+Closure
+( 49)  OPCIO	: S_PARENTESIOBERT L_EXPS _ S_PARENTESITANCAT 
+( 50)  L_EXPS	: L_EXPS _ S_COMA E 
+
+
+ 	S_PARENTESITANCAT 	shift  129
+ 	S_COMA 	shift  130
+ 	default 	error
+------------------
+State  118
+
+Kernel
+( 51)  L_EXPS	: E _ 
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+
+Closure
+( 51)  L_EXPS	: E _ 
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+
+
+ 	PC_AND 	shift  81
+ 	PC_OR 	shift  82
+ 	PC_MOD 	shift  80
+ 	S_MENYS 	shift  77
+ 	S_MES 	shift  76
+ 	S_MULTIPLICACIO 	shift  78
+ 	S_DIVISIO 	shift  79
+ 	S_RELACIONAL 	shift  84
+ 	S_DIFERENT 	shift  83
+ 	default 	reduce  51
+------------------
+State  119
+
+Kernel
+( 23)  VALOR	: S_MENYS LITERAL _ 
+
+Closure
+( 23)  VALOR	: S_MENYS LITERAL _ 
+
+
+ 	default 	reduce  23
+------------------
+State  120
+
+Kernel
+( 25)  VALOR	: S_MENYS ID _ 
+
+Closure
+( 25)  VALOR	: S_MENYS ID _ 
+
+
+ 	default 	reduce  25
+------------------
+State  121
+
+Kernel
+( 21)  DECLARA_CONSTANT	: L_IDS S_DOSPUNTS PC_CONSTANT ID S_ASSIGNACIO VALOR S_PUNTICOMA _ 
+
+Closure
+( 21)  DECLARA_CONSTANT	: L_IDS S_DOSPUNTS PC_CONSTANT ID S_ASSIGNACIO VALOR S_PUNTICOMA _ 
+
+
+ 	default 	reduce  21
+------------------
+State  122
+
+Kernel
+( 29)  DECLARA_SUBRANG	: PC_TYPE ID PC_IS PC_NEW ID PC_RANGE VALOR _ S_PUNTPUNT VALOR S_PUNTICOMA 
+
+Closure
+( 29)  DECLARA_SUBRANG	: PC_TYPE ID PC_IS PC_NEW ID PC_RANGE VALOR _ S_PUNTPUNT VALOR S_PUNTICOMA 
+
+
+ 	S_PUNTPUNT 	shift  131
+ 	default 	error
+------------------
+State  123
+
+Kernel
+( 30)  DECLARA_ARRAY	: PC_TYPE ID PC_IS PC_ARRAY S_PARENTESIOBERT L_IDS S_PARENTESITANCAT _ PC_OF ID S_PUNTICOMA 
+
+Closure
+( 30)  DECLARA_ARRAY	: PC_TYPE ID PC_IS PC_ARRAY S_PARENTESIOBERT L_IDS S_PARENTESITANCAT _ PC_OF ID S_PUNTICOMA 
+
+
+ 	PC_OF 	shift  132
+ 	default 	error
+------------------
+State  124
+
+Kernel
+( 31)  DECLARA_RECORD	: PC_TYPE ID PC_IS PC_RECORD DECLARACIO_CAMPS PC_END PC_RECORD _ S_PUNTICOMA 
+
+Closure
+( 31)  DECLARA_RECORD	: PC_TYPE ID PC_IS PC_RECORD DECLARACIO_CAMPS PC_END PC_RECORD _ S_PUNTICOMA 
+
+
+ 	S_PUNTICOMA 	shift  133
+ 	default 	error
+------------------
+State  125
+
+Kernel
+( 34)  DECLARACIO_CAMP	: ID S_DOSPUNTS ID _ S_PUNTICOMA 
+
+Closure
+( 34)  DECLARACIO_CAMP	: ID S_DOSPUNTS ID _ S_PUNTICOMA 
+
+
+ 	S_PUNTICOMA 	shift  134
+ 	default 	error
+------------------
+State  126
+
+Kernel
+( 41)  SENT_REP	: PC_WHILE E PC_LOOP SENTS PC_END _ PC_LOOP S_PUNTICOMA 
+
+Closure
+( 41)  SENT_REP	: PC_WHILE E PC_LOOP SENTS PC_END _ PC_LOOP S_PUNTICOMA 
+
+
+ 	PC_LOOP 	shift  135
+ 	default 	error
+------------------
+State  127
+
+Kernel
+( 42)  SENT_COND	: PC_IF E PC_THEN SENTS PC_END _ PC_IF S_PUNTICOMA 
+
+Closure
+( 42)  SENT_COND	: PC_IF E PC_THEN SENTS PC_END _ PC_IF S_PUNTICOMA 
+
+
+ 	PC_IF 	shift  136
+ 	default 	error
+------------------
+State  128
+
+Kernel
+( 43)  SENT_COND	: PC_IF E PC_THEN SENTS PC_ELSE _ SENTS PC_END PC_IF S_PUNTICOMA 
+
+Closure
+( 35)  SENTS	: _ SENTS SENT 
+( 36)  SENTS	: _ 
+( 43)  SENT_COND	: PC_IF E PC_THEN SENTS PC_ELSE _ SENTS PC_END PC_IF S_PUNTICOMA 
+
+
+	SENTS 	goto  137
+ 	default 	reduce  36
+------------------
+State  129
+
+Kernel
+( 49)  OPCIO	: S_PARENTESIOBERT L_EXPS S_PARENTESITANCAT _ 
+
+Closure
+( 49)  OPCIO	: S_PARENTESIOBERT L_EXPS S_PARENTESITANCAT _ 
+
+
+ 	default 	reduce  49
+------------------
+State  130
+
+Kernel
+( 50)  L_EXPS	: L_EXPS S_COMA _ E 
+
+Closure
+( 45)  REFERENCIA	: _ ID OPCIONS 
+( 50)  L_EXPS	: L_EXPS S_COMA _ E 
+( 53)  E	: _ E S_MES E 
+( 54)  E	: _ E S_MENYS E 
+( 55)  E	: _ E S_MULTIPLICACIO E 
+( 56)  E	: _ E S_DIVISIO E 
+( 57)  E	: _ E PC_MOD E 
+( 58)  E	: _ E PC_AND E 
+( 59)  E	: _ E PC_OR E 
+( 60)  E	: _ E S_DIFERENT E 
+( 61)  E	: _ E S_RELACIONAL E 
+( 62)  E	: _ S_MENYS E 
+( 63)  E	: _ S_PARENTESIOBERT E S_PARENTESITANCAT 
+( 64)  E	: _ PC_NOT E 
+( 65)  E	: _ REFERENCIA 
+( 66)  E	: _ LITERAL 
+
+
+	REFERENCIA 	goto  62
+	E 	goto  138
+ 	PC_NOT 	shift  61
+ 	S_PARENTESIOBERT 	shift  60
+ 	S_MENYS 	shift  59
+ 	ID 	shift  50
+ 	LITERAL 	shift  63
+ 	default 	error
+------------------
+State  131
+
+Kernel
+( 29)  DECLARA_SUBRANG	: PC_TYPE ID PC_IS PC_NEW ID PC_RANGE VALOR S_PUNTPUNT _ VALOR S_PUNTICOMA 
+
+Closure
+( 22)  VALOR	: _ LITERAL 
+( 23)  VALOR	: _ S_MENYS LITERAL 
+( 24)  VALOR	: _ ID 
+( 25)  VALOR	: _ S_MENYS ID 
+( 29)  DECLARA_SUBRANG	: PC_TYPE ID PC_IS PC_NEW ID PC_RANGE VALOR S_PUNTPUNT _ VALOR S_PUNTICOMA 
+
+
+	VALOR 	goto  139
+ 	S_MENYS 	shift  95
+ 	ID 	shift  96
+ 	LITERAL 	shift  94
+ 	default 	error
+------------------
+State  132
+
+Kernel
+( 30)  DECLARA_ARRAY	: PC_TYPE ID PC_IS PC_ARRAY S_PARENTESIOBERT L_IDS S_PARENTESITANCAT PC_OF _ ID S_PUNTICOMA 
+
+Closure
+( 30)  DECLARA_ARRAY	: PC_TYPE ID PC_IS PC_ARRAY S_PARENTESIOBERT L_IDS S_PARENTESITANCAT PC_OF _ ID S_PUNTICOMA 
+
+
+ 	ID 	shift  140
+ 	default 	error
+------------------
+State  133
+
+Kernel
+( 31)  DECLARA_RECORD	: PC_TYPE ID PC_IS PC_RECORD DECLARACIO_CAMPS PC_END PC_RECORD S_PUNTICOMA _ 
+
+Closure
+( 31)  DECLARA_RECORD	: PC_TYPE ID PC_IS PC_RECORD DECLARACIO_CAMPS PC_END PC_RECORD S_PUNTICOMA _ 
+
+
+ 	default 	reduce  31
+------------------
+State  134
+
+Kernel
+( 34)  DECLARACIO_CAMP	: ID S_DOSPUNTS ID S_PUNTICOMA _ 
+
+Closure
+( 34)  DECLARACIO_CAMP	: ID S_DOSPUNTS ID S_PUNTICOMA _ 
+
+
+ 	default 	reduce  34
+------------------
+State  135
+
+Kernel
+( 41)  SENT_REP	: PC_WHILE E PC_LOOP SENTS PC_END PC_LOOP _ S_PUNTICOMA 
+
+Closure
+( 41)  SENT_REP	: PC_WHILE E PC_LOOP SENTS PC_END PC_LOOP _ S_PUNTICOMA 
+
+
+ 	S_PUNTICOMA 	shift  141
+ 	default 	error
+------------------
+State  136
+
+Kernel
+( 42)  SENT_COND	: PC_IF E PC_THEN SENTS PC_END PC_IF _ S_PUNTICOMA 
+
+Closure
+( 42)  SENT_COND	: PC_IF E PC_THEN SENTS PC_END PC_IF _ S_PUNTICOMA 
+
+
+ 	S_PUNTICOMA 	shift  142
+ 	default 	error
+------------------
+State  137
+
+Kernel
+( 35)  SENTS	: SENTS _ SENT 
+( 43)  SENT_COND	: PC_IF E PC_THEN SENTS PC_ELSE SENTS _ PC_END PC_IF S_PUNTICOMA 
+
+Closure
+( 35)  SENTS	: SENTS _ SENT 
+( 37)  SENT	: _ SENT_REP 
+( 38)  SENT	: _ SENT_COND 
+( 39)  SENT	: _ SENT_ASSIG 
+( 40)  SENT	: _ SENT_CRIDA 
+( 41)  SENT_REP	: _ PC_WHILE E PC_LOOP SENTS PC_END PC_LOOP S_PUNTICOMA 
+( 42)  SENT_COND	: _ PC_IF E PC_THEN SENTS PC_END PC_IF S_PUNTICOMA 
+( 43)  SENT_COND	: _ PC_IF E PC_THEN SENTS PC_ELSE SENTS PC_END PC_IF S_PUNTICOMA 
+( 43)  SENT_COND	: PC_IF E PC_THEN SENTS PC_ELSE SENTS _ PC_END PC_IF S_PUNTICOMA 
+( 44)  SENT_ASSIG	: _ REFERENCIA S_ASSIGNACIO E S_PUNTICOMA 
+( 45)  REFERENCIA	: _ ID OPCIONS 
+( 52)  SENT_CRIDA	: _ REFERENCIA S_PUNTICOMA 
+
+
+	REFERENCIA 	goto  49
+	SENT_CRIDA 	goto  46
+	SENT_ASSIG 	goto  45
+	SENT_COND 	goto  44
+	SENT_REP 	goto  43
+	SENT 	goto  52
+ 	PC_END 	shift  143
+ 	PC_IF 	shift  48
+ 	PC_WHILE 	shift  47
+ 	ID 	shift  50
+ 	default 	error
+------------------
+State  138
+
+Kernel
+( 50)  L_EXPS	: L_EXPS S_COMA E _ 
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+
+Closure
+( 50)  L_EXPS	: L_EXPS S_COMA E _ 
+( 53)  E	: E _ S_MES E 
+( 54)  E	: E _ S_MENYS E 
+( 55)  E	: E _ S_MULTIPLICACIO E 
+( 56)  E	: E _ S_DIVISIO E 
+( 57)  E	: E _ PC_MOD E 
+( 58)  E	: E _ PC_AND E 
+( 59)  E	: E _ PC_OR E 
+( 60)  E	: E _ S_DIFERENT E 
+( 61)  E	: E _ S_RELACIONAL E 
+
+
+ 	PC_AND 	shift  81
+ 	PC_OR 	shift  82
+ 	PC_MOD 	shift  80
+ 	S_MENYS 	shift  77
+ 	S_MES 	shift  76
+ 	S_MULTIPLICACIO 	shift  78
+ 	S_DIVISIO 	shift  79
+ 	S_RELACIONAL 	shift  84
+ 	S_DIFERENT 	shift  83
+ 	default 	reduce  50
+------------------
+State  139
+
+Kernel
+( 29)  DECLARA_SUBRANG	: PC_TYPE ID PC_IS PC_NEW ID PC_RANGE VALOR S_PUNTPUNT VALOR _ S_PUNTICOMA 
+
+Closure
+( 29)  DECLARA_SUBRANG	: PC_TYPE ID PC_IS PC_NEW ID PC_RANGE VALOR S_PUNTPUNT VALOR _ S_PUNTICOMA 
+
+
+ 	S_PUNTICOMA 	shift  144
+ 	default 	error
+------------------
+State  140
+
+Kernel
+( 30)  DECLARA_ARRAY	: PC_TYPE ID PC_IS PC_ARRAY S_PARENTESIOBERT L_IDS S_PARENTESITANCAT PC_OF ID _ S_PUNTICOMA 
+
+Closure
+( 30)  DECLARA_ARRAY	: PC_TYPE ID PC_IS PC_ARRAY S_PARENTESIOBERT L_IDS S_PARENTESITANCAT PC_OF ID _ S_PUNTICOMA 
+
+
+ 	S_PUNTICOMA 	shift  145
+ 	default 	error
+------------------
+State  141
+
+Kernel
+( 41)  SENT_REP	: PC_WHILE E PC_LOOP SENTS PC_END PC_LOOP S_PUNTICOMA _ 
+
+Closure
+( 41)  SENT_REP	: PC_WHILE E PC_LOOP SENTS PC_END PC_LOOP S_PUNTICOMA _ 
+
+
+ 	default 	reduce  41
+------------------
+State  142
+
+Kernel
+( 42)  SENT_COND	: PC_IF E PC_THEN SENTS PC_END PC_IF S_PUNTICOMA _ 
+
+Closure
+( 42)  SENT_COND	: PC_IF E PC_THEN SENTS PC_END PC_IF S_PUNTICOMA _ 
+
+
+ 	default 	reduce  42
+------------------
+State  143
+
+Kernel
+( 43)  SENT_COND	: PC_IF E PC_THEN SENTS PC_ELSE SENTS PC_END _ PC_IF S_PUNTICOMA 
+
+Closure
+( 43)  SENT_COND	: PC_IF E PC_THEN SENTS PC_ELSE SENTS PC_END _ PC_IF S_PUNTICOMA 
+
+
+ 	PC_IF 	shift  146
+ 	default 	error
+------------------
+State  144
+
+Kernel
+( 29)  DECLARA_SUBRANG	: PC_TYPE ID PC_IS PC_NEW ID PC_RANGE VALOR S_PUNTPUNT VALOR S_PUNTICOMA _ 
+
+Closure
+( 29)  DECLARA_SUBRANG	: PC_TYPE ID PC_IS PC_NEW ID PC_RANGE VALOR S_PUNTPUNT VALOR S_PUNTICOMA _ 
+
+
+ 	default 	reduce  29
+------------------
+State  145
+
+Kernel
+( 30)  DECLARA_ARRAY	: PC_TYPE ID PC_IS PC_ARRAY S_PARENTESIOBERT L_IDS S_PARENTESITANCAT PC_OF ID S_PUNTICOMA _ 
+
+Closure
+( 30)  DECLARA_ARRAY	: PC_TYPE ID PC_IS PC_ARRAY S_PARENTESIOBERT L_IDS S_PARENTESITANCAT PC_OF ID S_PUNTICOMA _ 
+
+
+ 	default 	reduce  30
+------------------
+State  146
+
+Kernel
+( 43)  SENT_COND	: PC_IF E PC_THEN SENTS PC_ELSE SENTS PC_END PC_IF _ S_PUNTICOMA 
+
+Closure
+( 43)  SENT_COND	: PC_IF E PC_THEN SENTS PC_ELSE SENTS PC_END PC_IF _ S_PUNTICOMA 
+
+
+ 	S_PUNTICOMA 	shift  147
+ 	default 	error
+------------------
+State  147
+
+Kernel
+( 43)  SENT_COND	: PC_IF E PC_THEN SENTS PC_ELSE SENTS PC_END PC_IF S_PUNTICOMA _ 
+
+Closure
+( 43)  SENT_COND	: PC_IF E PC_THEN SENTS PC_ELSE SENTS PC_END PC_IF S_PUNTICOMA _ 
+
+
+ 	default 	reduce  43
